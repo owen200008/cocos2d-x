@@ -25,6 +25,7 @@
 #include "2d/CCNodeGrid.h"
 #include "2d/CCGrid.h"
 #include "renderer/CCRenderer.h"
+#include "2d/CCRenderTexture.h"
 
 NS_CC_BEGIN
 
@@ -194,6 +195,130 @@ void NodeGrid::setGrid(GridBase *grid)
     CC_SAFE_RELEASE(_nodeGrid);
     CC_SAFE_RETAIN(grid);
     _nodeGrid = grid;
+}
+
+NodeGridDeepCopy* NodeGridDeepCopy::create(){
+    NodeGridDeepCopy * ret = new (std::nothrow) NodeGridDeepCopy();
+    if(ret && ret->init()){
+        ret->autorelease();
+    }
+    else{
+        CC_SAFE_DELETE(ret);
+    }
+    return ret;
+}
+void NodeGridDeepCopy::setTarget(Node *target){
+    m_bTargetDirty = true;
+    NodeGrid::setTarget(target);
+}
+
+// overrides
+void NodeGridDeepCopy::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags){
+    // quick return if not visible. children won't be drawn.
+    if(!_visible){
+        return;
+    }
+    bool dirty = (parentFlags & FLAGS_TRANSFORM_DIRTY) || _transformUpdated;
+    if(dirty)
+        _modelViewTransform = this->transform(parentTransform);
+    _transformUpdated = false;
+
+    _groupCommand.init(_globalZOrder);
+    renderer->addCommand(&_groupCommand);
+    renderer->pushGroup(_groupCommand.getRenderQueueID());
+
+    // IMPORTANT:
+    // To ease the migration to v3.0, we still support the Mat4 stack,
+    // but it is deprecated and your code should not rely on it
+    Director* director = Director::getInstance();
+    CCASSERT(nullptr != director, "Director is null when setting matrix stack");
+
+    director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+    director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
+
+    Director::Projection beforeProjectionType = Director::Projection::DEFAULT;
+    if(_nodeGrid && _nodeGrid->isActive()){
+        beforeProjectionType = Director::getInstance()->getProjection();
+        _nodeGrid->set2DProjection();
+    }
+
+    _gridBeginCommand.init(_globalZOrder);
+    _gridBeginCommand.func = CC_CALLBACK_0(NodeGridDeepCopy::onGridBeginDraw, this);
+    renderer->addCommand(&_gridBeginCommand);
+
+    if(m_bTargetDirty){
+        // create the first render texture for inScene
+        Size size = Director::getInstance()->getWinSize();
+
+        cocos2d::RenderTexture* inTexture = RenderTexture::create((int)size.width, (int)size.height, Texture2D::PixelFormat::RGBA8888, GL_DEPTH24_STENCIL8);
+
+        if(nullptr == inTexture){
+            return;
+        }
+        inTexture->setTag(0x0FFFFFFF);
+        inTexture->getSprite()->setAnchorPoint(Vec2(0.5f, 0.5f));
+        inTexture->setPosition(size.width / 2, size.height / 2);
+        inTexture->setAnchorPoint(Vec2(0.5f, 0.5f));
+
+        // render inScene to its texturebuffer
+        inTexture->begin();
+        _gridTarget->visit();
+        inTexture->end();
+
+        BlendFunc blend1 = { GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA }; // inScene will lay on background and will not be used with alpha
+        inTexture->getSprite()->setBlendFunc(blend1);
+        cocos2d::Node* pRenderNode = getChildByTag(0x0FFFFFFF);
+        if(pRenderNode)
+            removeChild(pRenderNode);
+        addChild(inTexture);
+
+        m_bTargetDirty = false;
+    }
+    //visit render
+    Node::visit(renderer, parentTransform, parentFlags);
+
+    int i = 0;
+    bool visibleByCamera = isVisitableByVisitingCamera();
+
+    if(!_children.empty()){
+        sortAllChildren();
+        // draw children zOrder < 0
+        for(; i < _children.size(); i++){
+            auto node = _children.at(i);
+
+            if(node && node->getLocalZOrder() < 0)
+                node->visit(renderer, _modelViewTransform, dirty);
+            else
+                break;
+        }
+        // self draw,currently we have nothing to draw on NodeGrid, so there is no need to add render command
+        if(visibleByCamera)
+            this->draw(renderer, _modelViewTransform, dirty);
+
+        for(auto it = _children.cbegin() + i; it != _children.cend(); ++it){
+            (*it)->visit(renderer, _modelViewTransform, dirty);
+        }
+    }
+    else if(visibleByCamera){
+        this->draw(renderer, _modelViewTransform, dirty);
+    }
+
+    // FIX ME: Why need to set _orderOfArrival to 0??
+    // Please refer to https://github.com/cocos2d/cocos2d-x/pull/6920
+    // setOrderOfArrival(0);
+
+    if(_nodeGrid && _nodeGrid->isActive()){
+        // restore projection
+        director->setProjection(beforeProjectionType);
+    }
+
+    _gridEndCommand.init(_globalZOrder);
+    _gridEndCommand.func = CC_CALLBACK_0(NodeGridDeepCopy::onGridEndDraw, this);
+    renderer->addCommand(&_gridEndCommand);
+
+    renderer->popGroup();
+
+    director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
 
 NS_CC_END

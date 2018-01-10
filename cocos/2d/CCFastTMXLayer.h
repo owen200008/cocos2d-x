@@ -79,6 +79,11 @@ namespace experimental{
 class CC_DLL TMXLayer : public Node
 {
 public:
+/**
+	create layer with texture2d
+	*/
+	static TMXLayer* createByTexture2D(Texture2D* pTexture2D, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
+	
     /** Creates a FastTMXLayer with an tileset info, a layer info and a map info.
      *
      * @param tilesetInfo An tileset info.
@@ -145,7 +150,7 @@ public:
     Value getProperty(const std::string& propertyName) const;
 
     /** Creates the tiles. */
-    void setupTiles();
+    virtual void setupTiles();
     
     /** Get the tile layer name.
      *
@@ -270,10 +275,12 @@ public:
     virtual void draw(Renderer *renderer, const Mat4& transform, uint32_t flags) override;
     void removeChild(Node* child, bool cleanup = true) override;
 
+	//get real draw area
+	const Rect& GetSceneGridRect(){ return _screenGridRect; }
 protected:
 
-    bool initWithTilesetInfo(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
-    void updateTiles(const Rect& culledRect);
+    virtual bool initWithTilesetInfo(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
+    virtual void updateTiles(const Rect& culledRect);
     Vec2 calculateLayerOffset(const Vec2& offset);
 
     /* The layer recognizes some special properties, like cc_vertexz */
@@ -288,7 +295,7 @@ protected:
     void setFlaggedTileGIDByIndex(int index, uint32_t gid);
     
     //
-    void updateTotalQuads();
+    virtual void updateTotalQuads();
     
     void onDraw(Primitive* primitive);
     int getTileIndexByPos(int x, int y) const { return x + y * (int) _layerSize.width; }
@@ -351,12 +358,28 @@ protected:
     IndexBuffer* _indexBuffer;
     
     Map<int , Primitive*> _primitives;
-    
+protected:
+	//calc Staggered pos
+	int GetTilePosByPosition(const Vec2 &pos, Vec2& posRet);
+	int CalcTilePosAtRect(const cocos2d::Vec2& pos, cocos2d::Vec2& posRet, bool bEvenHeight);
+
+	bool initWithTexture2D(Texture2D* pTexture2D, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
+	
+	/*is multi tileset*/
+	bool							m_bMultiTileSet;
+	/*map to the multi tileset*/
+	std::map<int, TMXTilesetInfo*> 	m_mapMultiTileSet;
+
+	int 							m_staggerIndex;
 public:
     /** Possible orientations of the TMX map */
     static const int FAST_TMX_ORIENTATION_ORTHO;
     static const int FAST_TMX_ORIENTATION_HEX;
     static const int FAST_TMX_ORIENTATION_ISO;
+	static const int FAST_TMX_ORIENTATION_Staggered;
+	
+	static const int FAST_TMX_TMXStaggerIndex_Odd;
+	static const int FAST_TMX_TMXStaggerIndex_Even;
 };
 
 // end of tilemap_parallax_nodes group

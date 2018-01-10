@@ -99,6 +99,20 @@ class TMXLayer;
 class CC_DLL TMXTiledMap : public Node
 {
 public:
+	//! store the file name
+	std::string m_tmxFileName;
+	//! getplist func
+	static std::function<bool(std::string&, std::string&, Texture2D*& bLocal)> m_funcPListCallback;
+	/**
+	create tmx with the resource callback always plist
+	*/
+	static void bindPListCallback(const std::function<bool(std::string&, std::string&, Texture2D*& bLocal)>& func){
+		m_funcPListCallback = func;
+	}
+
+	/* get the tmx file name*/
+	std::string& getTMXFileName(){ return m_tmxFileName; }
+	
     /** Creates a TMX Tiled Map with a TMX file.
      *
      * @return An autorelease object.
