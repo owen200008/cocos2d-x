@@ -3,6 +3,7 @@
 #include "editor-support/cocostudio/WidgetReader/TextFieldReader/TextFieldReader.h"
 
 #include "ui/UITextField.h"
+#include "ui/UIEditBox/UIEditBox.h"
 #include "platform/CCFileUtils.h"
 #include "editor-support/cocostudio/CocoLoader.h"
 #include "editor-support/cocostudio/CSParseBinary_generated.h"
@@ -14,6 +15,8 @@
 USING_NS_CC;
 using namespace ui;
 using namespace flatbuffers;
+
+#define COCOS2DX_USE_EDITBOX
 
 namespace cocostudio
 {
@@ -288,11 +291,20 @@ namespace cocostudio
     
     void TextFieldReader::setPropsWithFlatBuffers(cocos2d::Node *node, const flatbuffers::Table *textFieldOptions)
     {
+#ifdef COCOS2DX_USE_EDITBOX
+        EditBox* textField = static_cast<EditBox*>(node);
+#else
         TextField* textField = static_cast<TextField*>(node);
+#endif
         auto options = (TextFieldOptions*)textFieldOptions;
         
         std::string placeholder = options->placeHolder()->c_str();
+#ifdef COCOS2DX_USE_EDITBOX
+        textField->setPlaceHolder(placeholder.c_str());
+#else
         textField->setPlaceHolder(placeholder);
+#endif
+        
         
         std::string text = options->text()->c_str();
         bool isLocalized = options->isLocalized() != 0;
@@ -303,21 +315,40 @@ namespace cocostudio
             std::string::size_type newlineIndex = localizedTxt.find("\n");
             if (newlineIndex != std::string::npos)
                 localizedTxt = localizedTxt.substr(0, newlineIndex);
+#ifdef COCOS2DX_USE_EDITBOX
+            textField->setText(localizedTxt.c_str());
+#else
             textField->setString(localizedTxt);
+#endif
+            
         }
         else
         {
+#ifdef COCOS2DX_USE_EDITBOX
+            textField->setText(text.c_str());
+#else
             textField->setString(text);
+#endif
         }
         
         int fontSize = options->fontSize();
         textField->setFontSize(fontSize);
+#ifdef COCOS2DX_USE_EDITBOX
+        textField->setPlaceholderFontSize(fontSize);
+#endif
         
         std::string fontName = options->fontName()->c_str();
+#ifdef COCOS2DX_USE_EDITBOX
+        textField->setFontName(fontName.c_str());
+        textField->setPlaceholderFontName(fontName.c_str());
+#else
         textField->setFontName(fontName);
+#endif
         
         bool maxLengthEnabled = options->maxLengthEnabled() != 0;
+#ifndef COCOS2DX_USE_EDITBOX
         textField->setMaxLengthEnabled(maxLengthEnabled);
+#endif
         
         if (maxLengthEnabled)
         {
@@ -325,11 +356,17 @@ namespace cocostudio
             textField->setMaxLength(maxLength);
         }
         bool passwordEnabled = options->passwordEnabled() != 0;
+#ifndef COCOS2DX_USE_EDITBOX
         textField->setPasswordEnabled(passwordEnabled);
+#endif
         if (passwordEnabled)
         {
+#ifdef COCOS2DX_USE_EDITBOX
+            textField->setInputFlag(EditBox::InputFlag::PASSWORD);
+#else
             std::string passwordStyleText = options->passwordStyleText()->c_str();
             textField->setPasswordStyleText(passwordStyleText.c_str());
+#endif
         }
         
         
@@ -350,7 +387,12 @@ namespace cocostudio
             }
             if (fileExist)
             {
+#ifdef COCOS2DX_USE_EDITBOX
+                textField->setFontName(path.c_str());
+                textField->setPlaceholderFontName(path.c_str());
+#else
                 textField->setFontName(path);
+#endif
             }
         }
         
@@ -373,7 +415,15 @@ namespace cocostudio
     
     Node* TextFieldReader::createNodeWithFlatBuffers(const flatbuffers::Table *textFieldOptions)
     {
+#ifdef COCOS2DX_USE_EDITBOX
+        auto options = (TextFieldOptions*)textFieldOptions;
+        auto optionsWidget = (WidgetOptions*)options->widgetOptions();
+        Size contentSize(optionsWidget->size()->width(), optionsWidget->size()->height());
+
+        EditBox* textField = EditBox::create(contentSize, Scale9Sprite::create());
+#else
         TextField* textField = TextField::create();
+#endif
         
         setPropsWithFlatBuffers(textField, (Table*)textFieldOptions);
         

@@ -51,6 +51,7 @@ public:
     virtual ~ResizableBuffer() {}
     virtual void resize(size_t size) = 0;
     virtual void* buffer() const = 0;
+	virtual ssize_t GetLength() = 0;
 };
 
 template<typename T>
@@ -74,6 +75,9 @@ public:
         else
             return &_buffer->front();
     }
+	virtual ssize_t GetLength() override{
+		return _buffer->length();
+	}
 };
 
 template<typename T, typename Allocator>
@@ -93,6 +97,9 @@ public:
         else
             return &_buffer->front();
     }
+	virtual ssize_t GetLength() override{
+		return _buffer->size();
+	}
 };
 
 
@@ -114,6 +121,9 @@ public:
     virtual void* buffer() const override {
         return _buffer->getBytes();
     }
+	virtual ssize_t GetLength() override{
+		return _buffer->getSize();
+	}
 };
 
 /** Helper class to handle file operations. */
@@ -143,7 +153,7 @@ public:
      * @warning It will delete previous delegate
      * @lua NA
      */
-    static void setDelegate(FileUtils *delegate);
+	static void setCreateFunc(const std::function<void(FileUtils*&, bool)>& func);
 
     /** @deprecated Use getInstance() instead */
     CC_DEPRECATED_ATTRIBUTE static FileUtils* sharedFileUtils() { return getInstance(); }
@@ -954,7 +964,7 @@ protected:
      *  The singleton pointer of FileUtils.
      */
     static FileUtils* s_sharedFileUtils;
-
+	static std::function<void(FileUtils*&, bool)> _sharedDefaultCreate;
     /**
      *  Remove null value key (for iOS)
      */

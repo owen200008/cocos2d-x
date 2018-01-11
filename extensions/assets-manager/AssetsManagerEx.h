@@ -43,6 +43,14 @@
 
 NS_CC_EXT_BEGIN
 
+//! All files to be decompressed
+struct CompressedFilesInfoAsserts{
+    std::string     _fileName;
+    int             _nCompressIndex;
+    CompressedFilesInfoAsserts() : _nCompressIndex(0){
+    }
+};
+
 /**
  * @brief   This class is used to auto update resources, such as pictures or scripts.
  */
@@ -157,7 +165,7 @@ protected:
     void startUpdate();
     void updateSucceed();
     bool decompress(const std::string &filename);
-    void decompressDownloadedZip(const std::string &customId, const std::string &storagePath);
+    void decompressDownloadedZip();
     
     /** @brief Update a list of assets under the current AssetsManagerEx context
      */
@@ -321,6 +329,9 @@ private:
     
     //! Marker for whether the assets manager is inited
     bool _inited;
+	
+	//! All files to be decompressed
+    std::vector<CompressedFilesInfoAsserts> _compressedFiles;
 };
 
 NS_CC_EXT_END

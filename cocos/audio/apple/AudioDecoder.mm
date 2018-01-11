@@ -47,7 +47,7 @@ namespace cocos2d { namespace experimental {
 
     void AudioDecoder::close()
     {
-		_isOpened = false;
+        _isOpened = false;
         _totalFrames = 0;
         _bytesPerFrame = 0;
         _sampleRate = 0;

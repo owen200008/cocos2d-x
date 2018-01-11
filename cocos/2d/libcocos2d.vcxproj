@@ -15,6 +15,7 @@
     <ProjectGuid>{98A51BA8-FC3A-415B-AC8F-8C7BD464E93E}</ProjectGuid>
     <RootNamespace>cocos2d-x.win32</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -191,6 +192,10 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\openssl\prebuilt\win32\*.*" "$(OutDir)"
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\AnimatePacker3.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CCSpriteFrameCache_XiaKe.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSLoader_XiaKe.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSTMXMap_XiaKe.cpp" />
     <ClCompile Include="..\..\extensions\assets-manager\AssetsManager.cpp" />
     <ClCompile Include="..\..\extensions\assets-manager\AssetsManagerEx.cpp" />
     <ClCompile Include="..\..\extensions\assets-manager\CCEventAssetsManagerEx.cpp" />
@@ -766,6 +771,10 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\openssl\prebuilt\win32\*.*" "$(OutDir)"
     <ClCompile Include="CCTweenFunction.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\AnimatePacker3.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CCSpriteFrameCache_XiaKe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSLoader_XiaKe.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSTMXMap_XiaKe.h" />
     <ClInclude Include="..\..\extensions\assets-manager\AssetsManager.h" />
     <ClInclude Include="..\..\extensions\assets-manager\AssetsManagerEx.h" />
     <ClInclude Include="..\..\extensions\assets-manager\CCEventAssetsManagerEx.h" />

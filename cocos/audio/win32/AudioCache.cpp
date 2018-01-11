@@ -150,54 +150,24 @@ void AudioCache::readDataTask(unsigned int selfId)
         _sampleRate = (ALsizei)sampleRate;
         _duration = 1.0f * totalFrames / sampleRate;
         _totalFrames = totalFrames;
-
-        if (dataSize <= PCMDATA_CACHEMAXSIZE)
-        {
+		if (decoder->IsBufferMode()){
             uint32_t framesRead = 0;
             const uint32_t framesToReadOnce = std::min(totalFrames, static_cast<uint32_t>(sampleRate * QUEUEBUFFER_TIME_STEP * QUEUEBUFFER_NUM));
-
-            std::vector<char> adjustFrameBuf;
-
-            if (decoder->seek(totalFrames))
-            {
-                char* tmpBuf = (char*)malloc(framesToReadOnce * bytesPerFrame);
-                adjustFrameBuf.reserve(framesToReadOnce * bytesPerFrame);
-
-                // Adjust total frames by setting position to the end of frames and try to read more data.
-                // This is a workaround for https://github.com/cocos2d/cocos2d-x/issues/16938
-                do
+            char* tmpBuf = (char*)malloc(framesToReadOnce * bytesPerFrame);
+            std::vector<char> readFrameBuf;
+            readFrameBuf.reserve(totalFrames * bytesPerFrame);
+            do{
+                framesRead = decoder->read(framesToReadOnce, tmpBuf);
+                if (framesRead > 0)
                 {
-                    framesRead = decoder->read(framesToReadOnce, tmpBuf);
-                    if (framesRead > 0)
-                    {
-                        adjustFrames += framesRead;
-                        adjustFrameBuf.insert(adjustFrameBuf.end(), tmpBuf, tmpBuf + framesRead * bytesPerFrame);
-                    }
-
-                } while (framesRead > 0);
-
-                if (adjustFrames > 0)
-                {
-                    ALOGV("Orignal total frames: %u, adjust frames: %u, current total frames: %u", totalFrames, adjustFrames, totalFrames + adjustFrames);
-                    totalFrames += adjustFrames;
-                    _totalFrames = remainingFrames = totalFrames;
+                    _framesRead += framesRead;
+                    readFrameBuf.insert(readFrameBuf.end(), tmpBuf, tmpBuf + framesRead * bytesPerFrame);
                 }
+            } while (!*_isDestroyed && framesRead > 0);
+            free(tmpBuf);
 
-                // Reset dataSize
-                dataSize = totalFrames * bytesPerFrame;
-
-                free(tmpBuf);
-            }
-            // Reset to frame 0
-            BREAK_IF_ERR_LOG(!decoder->seek(0), "AudioDecoder::seek(0) failed!");
-
-            _pcmData = (char*)malloc(dataSize);
-            memset(_pcmData, 0x00, dataSize);
-
-            if (adjustFrames > 0)
-            {
-                memcpy(_pcmData + (dataSize - adjustFrameBuf.size()), adjustFrameBuf.data(), adjustFrameBuf.size());
-            }
+            _pcmData = (char*)malloc(readFrameBuf.size());
+            memcpy(_pcmData, readFrameBuf.data(), readFrameBuf.size());
 
             alGenBuffers(1, &_alBufferId);
             auto alError = alGetError();
@@ -209,61 +179,124 @@ void AudioCache::readDataTask(unsigned int selfId)
             if (*_isDestroyed)
                 break;
 
-            framesRead = decoder->readFixedFrames(std::min(framesToReadOnce, remainingFrames), _pcmData + _framesRead * bytesPerFrame);
-            _framesRead += framesRead;
-            remainingFrames -= framesRead;
-
-            if (*_isDestroyed)
-                break;
-
-            uint32_t frames = 0;
-            while (!*_isDestroyed && _framesRead < originalTotalFrames)
-            {
-                frames = std::min(framesToReadOnce, remainingFrames);
-                if (_framesRead + frames > originalTotalFrames)
-                {
-                    frames = originalTotalFrames - _framesRead;
-                }
-                framesRead = decoder->read(frames, _pcmData + _framesRead * bytesPerFrame);
-                if (framesRead == 0)
-                    break;
-                _framesRead += framesRead;
-                remainingFrames -= framesRead;
-            }
-
-            if (*_isDestroyed)
-                break;
-
-            if (_framesRead < originalTotalFrames)
-            {
-                memset(_pcmData + _framesRead * bytesPerFrame, 0x00, (totalFrames - _framesRead) * bytesPerFrame);
-            }
-            ALOGV("pcm buffer was loaded successfully, total frames: %u, total read frames: %u, adjust frames: %u, remainingFrames: %u", totalFrames, _framesRead, adjustFrames, remainingFrames);
-
-            _framesRead += adjustFrames;
-
-            alBufferData(_alBufferId, _format, _pcmData, (ALsizei)dataSize, (ALsizei)sampleRate);
+            alBufferData(_alBufferId, _format, _pcmData, (ALsizei)readFrameBuf.size(), (ALsizei)sampleRate);
 
             _state = State::READY;
         }
-        else
-        {
-            _queBufferFrames = sampleRate * QUEUEBUFFER_TIME_STEP;
-            BREAK_IF_ERR_LOG(_queBufferFrames == 0, "_queBufferFrames == 0");
+        else{
+			if (dataSize <= PCMDATA_CACHEMAXSIZE)
+			{
+				uint32_t framesRead = 0;
+				const uint32_t framesToReadOnce = std::min(totalFrames, static_cast<uint32_t>(sampleRate * QUEUEBUFFER_TIME_STEP * QUEUEBUFFER_NUM));
 
-            const uint32_t queBufferBytes = _queBufferFrames * bytesPerFrame;
+				std::vector<char> adjustFrameBuf;
 
-            for (int index = 0; index < QUEUEBUFFER_NUM; ++index)
-            {
-                _queBuffers[index] = (char*)malloc(queBufferBytes);
-                _queBufferSize[index] = queBufferBytes;
+				if (decoder->seek(totalFrames))
+				{
+					char* tmpBuf = (char*)malloc(framesToReadOnce * bytesPerFrame);
+					adjustFrameBuf.reserve(framesToReadOnce * bytesPerFrame);
 
-                decoder->readFixedFrames(_queBufferFrames, _queBuffers[index]);
-            }
+					// Adjust total frames by setting position to the end of frames and try to read more data.
+					// This is a workaround for https://github.com/cocos2d/cocos2d-x/issues/16938
+					do
+					{
+						framesRead = decoder->read(framesToReadOnce, tmpBuf);
+						if (framesRead > 0)
+						{
+							adjustFrames += framesRead;
+							adjustFrameBuf.insert(adjustFrameBuf.end(), tmpBuf, tmpBuf + framesRead * bytesPerFrame);
+						}
 
-            _state = State::READY;
-        }
+					} while (framesRead > 0);
 
+					if (adjustFrames > 0)
+					{
+						ALOGV("Orignal total frames: %u, adjust frames: %u, current total frames: %u", totalFrames, adjustFrames, totalFrames + adjustFrames);
+						totalFrames += adjustFrames;
+						_totalFrames = remainingFrames = totalFrames;
+					}
+
+					// Reset dataSize
+					dataSize = totalFrames * bytesPerFrame;
+
+					free(tmpBuf);
+				}
+				// Reset to frame 0
+				BREAK_IF_ERR_LOG(!decoder->seek(0), "AudioDecoder::seek(0) failed!");
+
+				_pcmData = (char*)malloc(dataSize);
+				memset(_pcmData, 0x00, dataSize);
+
+				if (adjustFrames > 0)
+				{
+					memcpy(_pcmData + (dataSize - adjustFrameBuf.size()), adjustFrameBuf.data(), adjustFrameBuf.size());
+				}
+
+				alGenBuffers(1, &_alBufferId);
+				auto alError = alGetError();
+				if (alError != AL_NO_ERROR) {
+					ALOGE("%s: attaching audio to buffer fail: %x", __FUNCTION__, alError);
+					break;
+				}
+
+				if (*_isDestroyed)
+					break;
+
+				framesRead = decoder->readFixedFrames(std::min(framesToReadOnce, remainingFrames), _pcmData + _framesRead * bytesPerFrame);
+				_framesRead += framesRead;
+				remainingFrames -= framesRead;
+
+				if (*_isDestroyed)
+					break;
+
+				uint32_t frames = 0;
+				while (!*_isDestroyed && _framesRead < originalTotalFrames)
+				{
+					frames = std::min(framesToReadOnce, remainingFrames);
+					if (_framesRead + frames > originalTotalFrames)
+					{
+						frames = originalTotalFrames - _framesRead;
+					}
+					framesRead = decoder->read(frames, _pcmData + _framesRead * bytesPerFrame);
+					if (framesRead == 0)
+						break;
+					_framesRead += framesRead;
+					remainingFrames -= framesRead;
+				}
+
+				if (*_isDestroyed)
+					break;
+
+				if (_framesRead < originalTotalFrames)
+				{
+					memset(_pcmData + _framesRead * bytesPerFrame, 0x00, (totalFrames - _framesRead) * bytesPerFrame);
+				}
+				ALOGV("pcm buffer was loaded successfully, total frames: %u, total read frames: %u, adjust frames: %u, remainingFrames: %u", totalFrames, _framesRead, adjustFrames, remainingFrames);
+
+				_framesRead += adjustFrames;
+
+				alBufferData(_alBufferId, _format, _pcmData, (ALsizei)dataSize, (ALsizei)sampleRate);
+
+				_state = State::READY;
+			}
+			else
+			{
+				_queBufferFrames = sampleRate * QUEUEBUFFER_TIME_STEP;
+				BREAK_IF_ERR_LOG(_queBufferFrames == 0, "_queBufferFrames == 0");
+
+				const uint32_t queBufferBytes = _queBufferFrames * bytesPerFrame;
+
+				for (int index = 0; index < QUEUEBUFFER_NUM; ++index)
+				{
+					_queBuffers[index] = (char*)malloc(queBufferBytes);
+					_queBufferSize[index] = queBufferBytes;
+
+					decoder->readFixedFrames(_queBufferFrames, _queBuffers[index]);
+				}
+
+				_state = State::READY;
+			}
+		}
     } while (false);
 
     if (decoder != nullptr)

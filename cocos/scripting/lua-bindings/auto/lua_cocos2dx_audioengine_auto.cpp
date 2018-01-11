@@ -3,6 +3,9 @@
 #include "audio/include/AudioEngine.h"
 #include "scripting/lua-bindings/manual/tolua_fix.h"
 #include "scripting/lua-bindings/manual/LuaBasicConversions.h"
+#include "scripting/lua-bindings/manual/CCLuaStack.h"
+#include "scripting/lua-bindings/manual/CCLuaValue.h"
+#include "scripting/lua-bindings/manual/CCLuaEngine.h"
 
 int lua_cocos2dx_audioengine_AudioProfile_constructor(lua_State* tolua_S)
 {
@@ -610,13 +613,14 @@ int lua_cocos2dx_audioengine_AudioEngine_preload(lua_State* tolua_S)
             std::string arg0;
             ok &= luaval_to_std_string(tolua_S, 2,&arg0, "ccexp.AudioEngine:preload");
             if (!ok) { break; }
-            std::function<void (bool)> arg1;
-            do {
-			// Lambda binding for lua is not supported.
-			assert(false);
-		} while(0)
-		;
-            if (!ok) { break; }
+            LUA_FUNCTION handler = (toluafix_ref_function(tolua_S, 3, 0));
+
+            std::function<void (bool)> arg1 = [=](bool bSuccess)->void{
+                LuaStack* stack = LuaEngine::getInstance()->getLuaStack();
+                stack->pushBoolean(bSuccess);
+                stack->executeFunctionByHandler(handler, 1);
+                LuaEngine::getInstance()->removeScriptHandler(handler);
+            };
             cocos2d::experimental::AudioEngine::preload(arg0, arg1);
             lua_settop(tolua_S, 1);
             return 1;

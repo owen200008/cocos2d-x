@@ -10454,7 +10454,7 @@ int lua_cocos2dx_Node_updateOrderOfArrival(lua_State* tolua_S)
             tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_Node_updateOrderOfArrival'", nullptr);
             return 0;
         }
-        cobj->updateOrderOfArrival();
+        //cobj->updateOrderOfArrival();
         lua_settop(tolua_S, 1);
         return 1;
     }

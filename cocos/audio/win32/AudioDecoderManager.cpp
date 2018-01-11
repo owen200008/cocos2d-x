@@ -57,7 +57,10 @@ AudioDecoder* AudioDecoderManager::createDecoder(const char* path)
     {
         return new (std::nothrow) AudioDecoderMp3();
     }
-
+    else if (suffix == ".buff")
+    {
+        return new (std::nothrow) AudioDecoderMp3Buff();
+    }
     return nullptr;
 }
 

@@ -103,6 +103,10 @@ public:
      */
     virtual uint32_t getChannelCount() const;
 
+	/**
+     * use getdatafromfile to read all data
+    */
+    virtual bool IsBufferMode() const;
 protected:
     AudioDecoder();
     virtual ~AudioDecoder();

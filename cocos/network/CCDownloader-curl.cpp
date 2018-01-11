@@ -133,7 +133,7 @@ namespace cocos2d { namespace network {
                 }
 
                 // open file
-                _fp = fopen(util->getSuitableFOpen(_tempFileName).c_str(), "ab");
+                _fp = fopen(util->getSuitableFOpen(_tempFileName).c_str(), "wb+");
                 if (nullptr == _fp)
                 {
                     _errCode = DownloadTask::ERROR_FILE_OP_FAILED;

@@ -198,8 +198,8 @@ void AudioCache::readDataTask(unsigned int selfId)
     _readDataTaskMutex.lock();
     _state = State::LOADING;
 
-	AudioDecoder* pDecoder = AudioDecoderManager::createDecoder(_fileFullPath.c_str());
-	AudioDecoder& decoder = *pDecoder;
+    AudioDecoder* pDecoder = AudioDecoderManager::createDecoder(_fileFullPath.c_str());
+    AudioDecoder& decoder = *pDecoder;
     do
     {
         if (!decoder.open(_fileFullPath.c_str()))
@@ -334,7 +334,7 @@ void AudioCache::readDataTask(unsigned int selfId)
     } while (false);
 
     decoder.close();
-	AudioDecoderManager::destroyDecoder(pDecoder);
+    AudioDecoderManager::destroyDecoder(pDecoder);
 
     //FIXME: Why to invoke play callback first? Should it be after 'load' callback?
     invokingPlayCallbacks();

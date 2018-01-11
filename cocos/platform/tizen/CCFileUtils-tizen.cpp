@@ -32,21 +32,12 @@
 using namespace std;
 NS_CC_BEGIN
 
-FileUtils* FileUtils::getInstance()
-{
-    if (s_sharedFileUtils == nullptr)
-    {
-        s_sharedFileUtils = new FileUtilsTizen();
-        if(!s_sharedFileUtils->init())
-        {
-          delete s_sharedFileUtils;
-          s_sharedFileUtils = nullptr;
-          CCLOG("ERROR: Could not init FileUtilsTizen");
-        }
-    }
-
-    return s_sharedFileUtils;
-}
+std::function<void(FileUtils*&, bool)> FileUtils::_sharedDefaultCreate = [](FileUtils*& pPoint, bool bCreate)->void{
+	if(bCreate)
+		pPoint = new FileUtilsTizen();
+	else
+		CC_SAFE_DELETE(pPoint);
+};
 
 FileUtilsTizen::FileUtilsTizen()
 {

@@ -2288,10 +2288,11 @@ static int lua_cocos2dx_Node_enumerateChildren(lua_State* tolua_S)
         LUA_FUNCTION handler = toluafix_ref_function(tolua_S,3,0);
 
         cobj->enumerateChildren(name, [=](Node* node)->bool{
+			LuaStack* stack = LuaEngine::getInstance()->getLuaStack();
             int id = node ? (int)node->_ID : -1;
             int* luaID = node ? &node->_luaID : nullptr;
-            toluafix_pushusertype_ccobject(tolua_S, id, luaID, (void*)node,"cc.Node");
-            bool ret = LuaEngine::getInstance()->getLuaStack()->executeFunctionByHandler(handler, 1);
+            toluafix_pushusertype_ccobject(stack->getLuaState(), id, luaID, (void*)node,"cc.Node");
+            bool ret = stack->executeFunctionByHandler(handler, 1);
 
             return ret;
         });
@@ -6955,8 +6956,9 @@ static int lua_cocos2dx_Console_addCommand(lua_State* tolua_S)
                 [=](int fd, const std::string& args)
                 {
                     //lua-callback, the third param;
-                    tolua_pushnumber(tolua_S, fd);
-                    tolua_pushstring(tolua_S, args.c_str());
+					auto sLuaState = LuaEngine::getInstance()->getLuaStack()->getLuaState();
+                    tolua_pushnumber(sLuaState, fd);
+                    tolua_pushstring(sLuaState, args.c_str());
 
                     LuaEngine::getInstance()->getLuaStack()->executeFunctionByHandler(handler, 2);
                 }
@@ -7432,7 +7434,7 @@ static int lua_cocos2dx_TextureCache_addImageAsync(lua_State* tolua_S)
         self->addImageAsync(configFilePath, [=](Texture2D* tex){
             int ID = (tex) ? (int)tex->_ID : -1;
             int* luaID = (tex) ? &tex->_luaID : nullptr;
-            toluafix_pushusertype_ccobject(tolua_S, ID, luaID, (void*)tex, "cc.Texture2D");
+            toluafix_pushusertype_ccobject(LuaEngine::getInstance()->getLuaStack()->getLuaState(), ID, luaID, (void*)tex, "cc.Texture2D");
             LuaEngine::getInstance()->getLuaStack()->executeFunctionByHandler(handler,1);
             LuaEngine::getInstance()->removeScriptHandler(handler);
         });
@@ -8031,9 +8033,9 @@ static int tolua_cocos2d_utils_captureScreen(lua_State* tolua_S)
         LUA_FUNCTION handler = toluafix_ref_function(tolua_S,2,0);
         std::string  fileName = tolua_tocppstring(tolua_S, 3, "");
         cocos2d::utils::captureScreen([=](bool succeed, const std::string& name ){
-
-            tolua_pushboolean(tolua_S, succeed);
-            tolua_pushstring(tolua_S, name.c_str());
+			auto sLuaState = LuaEngine::getInstance()->getLuaStack()->getLuaState();
+            tolua_pushboolean(sLuaState, succeed);
+            tolua_pushstring(sLuaState, name.c_str());
             LuaEngine::getInstance()->getLuaStack()->executeFunctionByHandler(handler, 2);
             LuaEngine::getInstance()->removeScriptHandler(handler);
         }, fileName);

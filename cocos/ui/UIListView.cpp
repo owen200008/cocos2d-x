@@ -598,7 +598,7 @@ void ListView::addEventListener(const ccListViewCallback& callback)
     _eventCallback = callback;
 }
     
-void ListView::selectedItemEvent(TouchEventType event)
+void ListView::selectedItemEvent(TouchEventType event, Widget *sender, Touch* pTouch)
 {
     this->retain();
     switch (event)
@@ -610,7 +610,7 @@ void ListView::selectedItemEvent(TouchEventType event)
                 (_listViewEventListener->*_listViewEventSelector)(this, LISTVIEW_ONSELECTEDITEM_START);
             }
             if (_eventCallback) {
-                _eventCallback(this,EventType::ON_SELECTED_ITEM_START);
+                _eventCallback(this,EventType::ON_SELECTED_ITEM_START, pTouch);
             }
             if (_ccEventCallback)
             {
@@ -625,12 +625,33 @@ void ListView::selectedItemEvent(TouchEventType event)
                 (_listViewEventListener->*_listViewEventSelector)(this, LISTVIEW_ONSELECTEDITEM_END);
             }
             if (_eventCallback) {
-                _eventCallback(this, EventType::ON_SELECTED_ITEM_END);
+                _eventCallback(this, EventType::ON_SELECTED_ITEM_END, pTouch);
             }
             if (_ccEventCallback)
             {
                 _ccEventCallback(this, static_cast<int>(EventType::ON_SELECTED_ITEM_END));
             }
+			//end calc
+			if(event == TouchEventType::ENDED){
+				//only ended will know last choose one begin just highlight
+				Widget* parent = sender;
+				while(parent){
+					if(parent->getParent() == _innerContainer){
+						_curSelectedIndex = getIndex(parent);
+						break;
+					}
+					parent = dynamic_cast<Widget*>(parent->getParent());
+				}
+			}
+			if(_listViewEventListener && _listViewEventSelector){
+				(_listViewEventListener->*_listViewEventSelector)(this, LISTVIEW_ONSELECTEDITEM_CHANGEITEM);
+			}
+			if(_eventCallback){
+				_eventCallback(this, EventType::ON_SELECTED_ITEM_CHANGE, pTouch);
+			}
+			if(_ccEventCallback){
+				_ccEventCallback(this, static_cast<int>(EventType::ON_SELECTED_ITEM_CHANGE));
+			}
         }
         break;
     }
@@ -646,19 +667,9 @@ void ListView::interceptTouchEvent(TouchEventType event, Widget *sender, Touch* 
     }
     if (event != TouchEventType::MOVED)
     {
-        Widget* parent = sender;
-        while (parent)
-        {
-            if (parent && (parent->getParent() == _innerContainer))
-            {
-                _curSelectedIndex = getIndex(parent);
-                break;
-            }
-            parent = dynamic_cast<Widget*>(parent->getParent());
-        }
-        if (sender->isHighlighted()) {
-            selectedItemEvent(event);
-        }
+		if(sender->isHighlighted()){
+			selectedItemEvent(event, sender, touch);
+		}
     }
 }
     
@@ -678,7 +689,7 @@ static Widget* findClosestItem(const Vec2& targetPosition, const Vector<Widget*>
     }
     if (lastIndex - firstIndex == 1)
     {
-        if (distanceFromFirst <= distanceFromLast)
+        if (fabs(distanceFromFirst) <= fabs(distanceFromLast))
         {
             return items.at(firstIndex);
         }
@@ -899,7 +910,7 @@ void ListView::setCurSelectedIndex(int itemIndex)
         return;
     }
     _curSelectedIndex = itemIndex;
-    this->selectedItemEvent(cocos2d::ui::Widget::TouchEventType::ENDED);
+    this->selectedItemEvent(cocos2d::ui::Widget::TouchEventType::ENDED, item, nullptr);
 }
 
 void ListView::onSizeChanged()

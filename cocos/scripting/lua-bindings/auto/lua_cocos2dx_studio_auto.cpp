@@ -4,6 +4,9 @@
 #include "scripting/lua-bindings/manual/cocostudio/lua-cocos-studio-conversions.h"
 #include "scripting/lua-bindings/manual/tolua_fix.h"
 #include "scripting/lua-bindings/manual/LuaBasicConversions.h"
+#include "scripting/lua-bindings/manual/CCLuaStack.h"
+#include "scripting/lua-bindings/manual/CCLuaValue.h"
+#include "scripting/lua-bindings/manual/CCLuaEngine.h"
 
 int lua_cocos2dx_studio_ActionFrame_getAction(lua_State* tolua_S)
 {
@@ -21425,16 +21428,18 @@ int lua_cocos2dx_studio_ActionTimeline_setAnimationEndCallFunc(lua_State* tolua_
     argc = lua_gettop(tolua_S)-1;
     if (argc == 2) 
     {
+        if(!toluafix_isfunction(tolua_S, 3, "LUA_FUNCTION", 0, &tolua_err)){
+            goto tolua_lerror;
+        }
+        LUA_FUNCTION handler = (toluafix_ref_function(tolua_S, 3, 0));
+
         std::string arg0;
-        std::function<void ()> arg1;
+        std::function<void ()> arg1 = [=](){
+            LuaEngine::getInstance()->getLuaStack()->executeFunctionByHandler(handler, 0);
+        };
 
         ok &= luaval_to_std_string(tolua_S, 2,&arg0, "ccs.ActionTimeline:setAnimationEndCallFunc");
 
-        do {
-			// Lambda binding for lua is not supported.
-			assert(false);
-		} while(0)
-		;
         if(!ok)
         {
             tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_studio_ActionTimeline_setAnimationEndCallFunc'", nullptr);
@@ -21864,13 +21869,15 @@ int lua_cocos2dx_studio_ActionTimeline_setLastFrameCallFunc(lua_State* tolua_S)
     argc = lua_gettop(tolua_S)-1;
     if (argc == 1) 
     {
-        std::function<void ()> arg0;
+        if(!toluafix_isfunction(tolua_S, 2, "LUA_FUNCTION", 0, &tolua_err)){
+            goto tolua_lerror;
+        }
+        LUA_FUNCTION handler = (toluafix_ref_function(tolua_S, 2, 0));
 
-        do {
-			// Lambda binding for lua is not supported.
-			assert(false);
-		} while(0)
-		;
+        std::function<void ()> arg0 = [=](){
+            LuaEngine::getInstance()->getLuaStack()->executeFunctionByHandler(handler, 0);
+        };
+
         if(!ok)
         {
             tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_studio_ActionTimeline_setLastFrameCallFunc'", nullptr);

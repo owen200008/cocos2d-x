@@ -45,7 +45,7 @@ NS_CC_BEGIN
 class CC_DLL FileUtilsLinux : public FileUtils
 {
     friend class FileUtils;
-protected:
+public:
     FileUtilsLinux();
 private:
     std::string _writablePath;

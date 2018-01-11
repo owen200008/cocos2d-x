@@ -52,6 +52,10 @@ struct ManifestAsset {
     bool compressed;
     float size;
     int downloadState;
+	int _nCompressIndex;
+    ManifestAsset() : compressed(false), 
+		_nCompressIndex(0){
+    }
 };
 
 typedef std::unordered_map<std::string, DownloadUnit> DownloadUnits;

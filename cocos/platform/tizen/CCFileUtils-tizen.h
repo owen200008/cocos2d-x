@@ -44,14 +44,14 @@ NS_CC_BEGIN
 class CC_DLL FileUtilsTizen : public FileUtils
 {
 public:
+    FileUtilsTizen();
+	
     /* override functions */
 	virtual bool init() override;
 
     virtual std::string getWritablePath() const override;
 
 private:
-    FileUtilsTizen();
-
     std::string _writablePath;
 
     virtual bool isFileExistInternal(const std::string& strFilePath) const override;

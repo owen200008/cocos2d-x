@@ -212,20 +212,13 @@ void FileUtilsApple::setBundle(NSBundle* bundle) {
 
 static NSFileManager* s_fileManager = [NSFileManager defaultManager];
 
-FileUtils* FileUtils::getInstance()
-{
-    if (s_sharedFileUtils == nullptr)
-    {
-        s_sharedFileUtils = new (std::nothrow) FileUtilsApple();
-        if(!s_sharedFileUtils->init())
-        {
-          delete s_sharedFileUtils;
-          s_sharedFileUtils = nullptr;
-          CCLOG("ERROR: Could not init CCFileUtilsApple");
-        }
+std::function<void(FileUtils*&, bool)> FileUtils::_sharedDefaultCreate = [](FileUtils*& pFile, bool bCreate)->void{
+    if(bCreate)
+        pFile = new (std::nothrow) FileUtilsApple();
+    else{
+        CC_SAFE_DELETE(pFile);
     }
-    return s_sharedFileUtils;
-}
+};
 
 
 std::string FileUtilsApple::getWritablePath() const

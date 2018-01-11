@@ -60,20 +60,12 @@ void FileUtilsAndroid::setassetmanager(AAssetManager* a) {
     cocos2d::FileUtilsAndroid::assetmanager = a;
 }
 
-FileUtils* FileUtils::getInstance()
-{
-    if (s_sharedFileUtils == nullptr)
-    {
-        s_sharedFileUtils = new FileUtilsAndroid();
-        if (!s_sharedFileUtils->init())
-        {
-          delete s_sharedFileUtils;
-          s_sharedFileUtils = nullptr;
-          CCLOG("ERROR: Could not init CCFileUtilsAndroid");
-        }
-    }
-    return s_sharedFileUtils;
-}
+std::function<void(FileUtils*&, bool)> FileUtils::_sharedDefaultCreate = [](FileUtils*& pPoint, bool bCreate)->void{
+	if(bCreate)
+		pPoint = new FileUtilsAndroid();
+	else
+		CC_SAFE_DELETE(pPoint);
+};
 
 FileUtilsAndroid::FileUtilsAndroid()
 {

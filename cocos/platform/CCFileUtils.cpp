@@ -535,18 +535,31 @@ bool FileUtils::writeToFile(const ValueMap& /*dict*/, const std::string &/*fullP
 
 // Implement FileUtils
 FileUtils* FileUtils::s_sharedFileUtils = nullptr;
+FileUtils* FileUtils::getInstance(){
+    if (s_sharedFileUtils == nullptr){
+        _sharedDefaultCreate(s_sharedFileUtils, true);
+        if (!s_sharedFileUtils->init())
+        {
+            delete s_sharedFileUtils;
+            s_sharedFileUtils = nullptr;
+            CCLOG("ERROR: Could not init CCFileUtilsWin32");
+        }
+    }
+    return s_sharedFileUtils;
+}
 
 void FileUtils::destroyInstance()
 {
-    CC_SAFE_DELETE(s_sharedFileUtils);
+	_sharedDefaultCreate(s_sharedFileUtils, false);
 }
 
-void FileUtils::setDelegate(FileUtils *delegate)
+/**
+create by user self spriteframecache
+*/
+void FileUtils::setCreateFunc(const std::function<void(FileUtils*&, bool)>& func)
 {
-    if (s_sharedFileUtils)
-        delete s_sharedFileUtils;
-
-    s_sharedFileUtils = delegate;
+	destroyInstance();
+    _sharedDefaultCreate = func;
 }
 
 FileUtils::FileUtils()

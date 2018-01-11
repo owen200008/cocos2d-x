@@ -46,7 +46,7 @@
 #define KEY_SIZE                "size"
 #define KEY_COMPRESSED_FILE     "compressedFile"
 #define KEY_DOWNLOAD_STATE      "downloadState"
-
+#define KEY_COMPRESSED_INDEX    "compressedindex"
 NS_CC_EXT_BEGIN
 
 static int cmpVersion(const std::string& v1, const std::string& v2)

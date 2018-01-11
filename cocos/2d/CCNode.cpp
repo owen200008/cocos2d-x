@@ -328,6 +328,7 @@ bool Node::changeChildDrawOrder(Node* pNode, Node* pFriendNode, bool bAfter){
     pNode->release();
     return bRet;
 }
+
 /// zOrder setter : private method
 /// used internally to alter the zOrder variable. DON'T call this method manually
 void Node::_setLocalZOrder(int z)

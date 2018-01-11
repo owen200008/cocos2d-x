@@ -87,5 +87,11 @@ AudioDecoder::AudioDecoder()
     {
         return _channelCount;
     }
-
+    /**
+    * use getdatafromfile to read all data
+    */
+    bool AudioDecoder::IsBufferMode() const
+    {
+        return false;
+    }
 }} // namespace cocos2d { namespace experimental {

@@ -33,6 +33,7 @@
 #include "audio/apple/AudioCache.h"
 #include "platform/CCFileUtils.h"
 #include "audio/apple/AudioDecoder.h"
+#include "audio/apple/AudioDecoderManager.h"
 
 #ifdef VERY_VERY_VERBOSE_LOGGING
 #define ALOGVV ALOGV
@@ -237,7 +238,8 @@ bool AudioPlayer::play2d()
 void AudioPlayer::rotateBufferThread(int offsetFrame)
 {
     char* tmpBuffer = nullptr;
-    AudioDecoder decoder;
+    AudioDecoder* pDecode = AudioDecoderManager::createDecoder(_audioCache->_fileFullPath.c_str());
+    AudioDecoder& decoder = *pDecode;
     do
     {
         BREAK_IF(!decoder.open(_audioCache->_fileFullPath.c_str()));
@@ -315,6 +317,7 @@ void AudioPlayer::rotateBufferThread(int offsetFrame)
     ALOGV("Exit rotate buffer thread ...");
     decoder.close();
     free(tmpBuffer);
+    AudioDecoderManager::destroyDecoder(pDecode);
     _isRotateThreadExited = true;
 }
 
