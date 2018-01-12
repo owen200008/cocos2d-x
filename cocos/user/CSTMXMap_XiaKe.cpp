@@ -129,3 +129,36 @@ void CMapTMXCache::PreLoadTexture2DCache(const char* pFiles, bool bAddCache){
         GetTexture2DCacheByFiles(pItem, bAddCache);
     });
 }
+
+//! 往节点增加noupdate Component
+void CMapTMXCache::AddNoUpdateCompent(cocos2d::Node* pNode, cocos2d::Component* pComponent){
+    pNode->addComponentNoUpdate(pComponent);
+}
+
+//增加延迟释放的节点
+void CMapTMXCache::AddClearNode(cocos2d::Node* pNode){
+    m_vtNewAddRetainChild.pushBack(pNode);
+}
+void CMapTMXCache::AddClearNodeChilds(cocos2d::Node* pNode){
+    for(const auto &obj : pNode->getChildren()){
+        m_vtNewAddRetainChild.pushBack(obj);
+    }
+}
+void CMapTMXCache::AddClearNodeChildsListView(cocos2d::ui::ListView* pListView){
+    for(const auto &obj : pListView->getItems()){
+        m_vtNewAddRetainChild.pushBack(obj);
+    }
+    pListView->removeAllItems();
+}
+void CMapTMXCache::AddClearNodeChildsPageView(cocos2d::ui::PageView* pPageView){
+    for(const auto &obj : pPageView->getPages()){
+        m_vtNewAddRetainChild.pushBack(obj);
+    }
+    pPageView->removeAllPages();
+}
+
+//! 最好是1秒一次
+void CMapTMXCache::OnTimer(int nTick){
+    m_vtRetainChild.clear();
+    std::swap(m_vtRetainChild, m_vtNewAddRetainChild);
+}

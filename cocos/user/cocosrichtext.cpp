@@ -8,7 +8,7 @@ static CocosRichTextStyleConfig m_defaultStyleConfig;
 static CocosRichTextFontConfig m_defaultFontConfig;
 MapCocosRichTextStyleConfig                         CCocosRichTextNode::m_mapStyleConfig;
 MapCocosRichTextFontConfig                          CCocosRichTextNode::m_mapFontConfig;
-std::function<void(int, char*)>                     CCocosRichTextNode::m_funcGetAnimation;
+std::string                                         CCocosRichTextNode::m_animationFormat;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 cocos2d::Label* CocosRichTextFontConfig::CreateLabelByConfig(const std::string& text, int nDefaultFontSize){
     int nFontSize = nDefaultFontSize;
@@ -53,8 +53,8 @@ CocosRichTextFontConfig* CCocosRichTextNode::GetFontConfig(int nIndex){
         return &iter->second;
     return &m_defaultFontConfig;
 }
-void CCocosRichTextNode::BindGetAnimationFunc(const std::function<void(int, char*)>& func){
-    m_funcGetAnimation = func;
+void CCocosRichTextNode::SetAnimationFormat(const char* pFormat){
+    m_animationFormat = pFormat;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 CCocosRichTextNode::CCocosRichTextNode(){
@@ -352,22 +352,20 @@ void CCocosRichTextNode::DealWithJson(CocosRichTextNodeType keyDefine, const rap
             //获取img的值
 			int nValue = p[CocosRichJsonKey_ImageValueData].GetInt();
 			char szFileName[256] = { 0 };
-            if(m_funcGetAnimation != nullptr){
-                m_funcGetAnimation(nValue, szFileName);
-                AnimationCache *pAniCache = AnimationCache::getInstance();
-                Animation* pAnimation = pAniCache->getAnimation(szFileName);
-                if(nullptr == pAnimation){
-                    assert(0);
-                    break;
-                }
-                const cocos2d::Vector<AnimationFrame*>& vtFrame = pAnimation->getFrames();
-                if(vtFrame.size() > 0){
-                    AnimationFrame* pFirstFrame = vtFrame.at(0);
-                    cocos2d::Sprite* pSprite = cocos2d::Sprite::create();
-                    pSprite->setSpriteFrame(pFirstFrame->getSpriteFrame());
-                    pSprite->runAction(RepeatForever::create(CCAnimate::create(pAnimation)));
-                    pushTextRender(pSprite, true, nullptr);
-                }
+            sprintf(szFileName, m_animationFormat.c_str(), nValue);
+            AnimationCache *pAniCache = AnimationCache::getInstance();
+            Animation* pAnimation = pAniCache->getAnimation(szFileName);
+            if(nullptr == pAnimation){
+                assert(0);
+                break;
+            }
+            const cocos2d::Vector<AnimationFrame*>& vtFrame = pAnimation->getFrames();
+            if(vtFrame.size() > 0){
+                AnimationFrame* pFirstFrame = vtFrame.at(0);
+                cocos2d::Sprite* pSprite = cocos2d::Sprite::create();
+                pSprite->setSpriteFrame(pFirstFrame->getSpriteFrame());
+                pSprite->runAction(RepeatForever::create(CCAnimate::create(pAnimation)));
+                pushTextRender(pSprite, true, nullptr);
             }
 		}
         break;

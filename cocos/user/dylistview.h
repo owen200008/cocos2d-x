@@ -43,7 +43,7 @@ protected:
 	std::function<void(cocos2d::Node*, cocos2d::Touch*, bool)>		m_pSelectChangeItemCallback;
 };
 
-class CDyListView : public cocos2d::ui::ListView{
+class CC_GUI_DLL CDyListView : public cocos2d::ui::ListView{
 public:
 	CDyListView();
 	virtual ~CDyListView();

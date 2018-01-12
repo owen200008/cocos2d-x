@@ -15,7 +15,7 @@
     <ProjectGuid>{98A51BA8-FC3A-415B-AC8F-8C7BD464E93E}</ProjectGuid>
     <RootNamespace>cocos2d-x.win32</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -192,16 +192,16 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\openssl\prebuilt\win32\*.*" "$(OutDir)"
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\AnimatePacker3.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CCSpriteFrameCache_XiaKe.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSLoader_XiaKe.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSTMXMap_XiaKe.cpp" />
-    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\CLikeWidget.cpp" />
-    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosnodenorelease.cpp" />
-    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosrichtext.cpp" />
-    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosrichtextReader.cpp" />
-    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\dylistview.cpp" />
-    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\dylistviewReader.cpp" />
+    <ClCompile Include="..\user\AnimatePacker3.cpp" />
+    <ClCompile Include="..\user\CCSpriteFrameCache_XiaKe.cpp" />
+    <ClCompile Include="..\user\CSLoader_XiaKe.cpp" />
+    <ClCompile Include="..\user\CSTMXMap_XiaKe.cpp" />
+    <ClCompile Include="..\user\CLikeWidget.cpp" />
+    <ClCompile Include="..\user\cocosnodenorelease.cpp" />
+    <ClCompile Include="..\user\cocosrichtext.cpp" />
+    <ClCompile Include="..\user\cocosrichtextReader.cpp" />
+    <ClCompile Include="..\user\dylistview.cpp" />
+    <ClCompile Include="..\user\dylistviewReader.cpp" />
     <ClCompile Include="..\..\extensions\assets-manager\AssetsManager.cpp" />
     <ClCompile Include="..\..\extensions\assets-manager\AssetsManagerEx.cpp" />
     <ClCompile Include="..\..\extensions\assets-manager\CCEventAssetsManagerEx.cpp" />
@@ -777,19 +777,19 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\openssl\prebuilt\win32\*.*" "$(OutDir)"
     <ClCompile Include="CCTweenFunction.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\AnimatePacker3.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CCSpriteFrameCache_XiaKe.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSLoader_XiaKe.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSTMXMap_XiaKe.h" />
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\CLikeWidget.h" />
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosnodenorelease.h" />
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosreader\publiccocosreader.h" />
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosrichtext.h" />
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosrichtextOptions_generated.h" />
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosrichtextReader.h" />
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\dylistview.h" />
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\dylistviewOptions_generated.h" />
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\dylistviewReader.h" />
+    <ClInclude Include="..\user\AnimatePacker3.h" />
+    <ClInclude Include="..\user\CCSpriteFrameCache_XiaKe.h" />
+    <ClInclude Include="..\user\CSLoader_XiaKe.h" />
+    <ClInclude Include="..\user\CSTMXMap_XiaKe.h" />
+    <ClInclude Include="..\user\CLikeWidget.h" />
+    <ClInclude Include="..\user\cocosnodenorelease.h" />
+    <ClInclude Include="..\user\cocosreader\publiccocosreader.h" />
+    <ClInclude Include="..\user\cocosrichtext.h" />
+    <ClInclude Include="..\user\cocosrichtextOptions_generated.h" />
+    <ClInclude Include="..\user\cocosrichtextReader.h" />
+    <ClInclude Include="..\user\dylistview.h" />
+    <ClInclude Include="..\user\dylistviewOptions_generated.h" />
+    <ClInclude Include="..\user\dylistviewReader.h" />
     <ClInclude Include="..\..\extensions\assets-manager\AssetsManager.h" />
     <ClInclude Include="..\..\extensions\assets-manager\AssetsManagerEx.h" />
     <ClInclude Include="..\..\extensions\assets-manager\CCEventAssetsManagerEx.h" />

@@ -115,7 +115,7 @@ public:
     static void RegisterFontConfig(int nIndex, CocosRichTextFontConfig& config);
 
     //! 获取表情
-    static void BindGetAnimationFunc(const std::function<void(int, char*)>& func);
+    static void SetAnimationFormat(const char* pFormat);
 
     //!
     virtual CocosRichTextStyleConfig* GetStyleConfig(int nIndex);
@@ -166,7 +166,7 @@ protected:
 protected:
     static MapCocosRichTextStyleConfig                      m_mapStyleConfig;
     static MapCocosRichTextFontConfig                       m_mapFontConfig;
-    static std::function<void(int, char*)>                  m_funcGetAnimation;
+    static std::string                                      m_animationFormat;
     //! 支持事件的节点
 	cocos2d::Vector<Node*>									m_clkEvent;
     //! 所有的节点

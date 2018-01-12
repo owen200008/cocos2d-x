@@ -10,7 +10,7 @@ extern "C" {
 }
 #endif
 
-int register_all_cocos2dx_xmqxz(lua_State* tolua_S);
+int register_all_cocos2dx_xiake(lua_State* tolua_S);
 
 
 
