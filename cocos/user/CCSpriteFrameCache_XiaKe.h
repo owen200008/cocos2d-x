@@ -31,7 +31,7 @@ protected:
 	std::map<std::string, SpriteFrameValue*>	m_mapCache;
 };
 
-class SpriteFrameCache_XiaKe : public cocos2d::SpriteFrameCache
+class CC_DLL SpriteFrameCache_XiaKe : public cocos2d::SpriteFrameCache
 {
 public:
     SpriteFrameCache_XiaKe();

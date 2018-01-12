@@ -1,5 +1,6 @@
 #include "CSTMXMap_XiaKe.h"
 #include "CCSpriteFrameCache_XiaKe.h"
+#include "CSLoader_XiaKe.h"
 
 template<class Functor>
 void SpliteStringForCocos(const char* p, char cTok, Functor func){
@@ -33,7 +34,7 @@ CMapTMXCache::~CMapTMXCache(){
 }
 
 //! bind read resourceset func
-bool CMapTMXCache::InitMapTMXCache(const std::function<bool(const char* pMapName, std::string& strResourceset)>& func){
+void CMapTMXCache::InitMapTMXCache(const std::function<bool(const char* pMapName, std::string& strResourceset)>& func){
     cocos2d::experimental::TMXTiledMap::bindPListCallback([&](std::string& strName, std::string& strKey, cocos2d::Texture2D*& bLocal) -> bool{
         auto iter = m_MapConfig.find(strName.c_str());
         if(iter == m_MapConfig.end()){
@@ -50,8 +51,18 @@ bool CMapTMXCache::InitMapTMXCache(const std::function<bool(const char* pMapName
         return true;
     });
     m_readFunc = func;
-    cocos2d::SpriteFrameCache_XiaKe* pCache = dynamic_cast<cocos2d::SpriteFrameCache_XiaKe*>(cocos2d::CCSpriteFrameCache::getInstance());
-    return pCache != nullptr;
+    cocos2d::SpriteFrameCache::setCreateFunc([&](cocos2d::SpriteFrameCache*& pPoint, bool bCreate)->void{
+        if(bCreate)
+            pPoint = new cocos2d::SpriteFrameCache_XiaKe();
+        else
+            CC_SAFE_RELEASE_NULL(pPoint);
+    });
+    cocos2d::CSLoader::setCreateFunc([&](cocos2d::CSLoader*& pPoint, bool bCreate)->void{
+        if(bCreate)
+            pPoint = new CSLoader_XiaKe();
+        else
+            CC_SAFE_DELETE(pPoint);
+    });
 }
 //! create map
 cocos2d::experimental::TMXTiledMap* CMapTMXCache::GetTMXMap(const char* pFileName){

@@ -295,6 +295,9 @@
     <Filter Include="user">
       <UniqueIdentifier>{378decb3-daf7-4474-b032-40337d295da1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="user\cocosreader">
+      <UniqueIdentifier>{85e4ff4f-d126-49aa-b339-22505ec1ae09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\physics\CCPhysicsBody.cpp">
@@ -2013,6 +2016,24 @@
       <Filter>user</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\AnimatePacker3.cpp">
+      <Filter>user</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosrichtext.cpp">
+      <Filter>user</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosnodenorelease.cpp">
+      <Filter>user</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\CLikeWidget.cpp">
+      <Filter>user</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosrichtextReader.cpp">
+      <Filter>user</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\dylistview.cpp">
+      <Filter>user</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\dylistviewReader.cpp">
       <Filter>user</Filter>
     </ClCompile>
   </ItemGroup>
@@ -3936,6 +3957,33 @@
       <Filter>user</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\AnimatePacker3.h">
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosreader\publiccocosreader.h">
+      <Filter>user\cocosreader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosrichtext.h">
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosnodenorelease.h">
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\CLikeWidget.h">
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosrichtextReader.h">
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosrichtextOptions_generated.h">
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\dylistview.h">
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\dylistviewReader.h">
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\dylistviewOptions_generated.h">
       <Filter>user</Filter>
     </ClInclude>
   </ItemGroup>

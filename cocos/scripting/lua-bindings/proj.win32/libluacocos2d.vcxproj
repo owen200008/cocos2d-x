@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\..\..\cocos2d-x\cocos\scripting\lua-bindings\manual\user\lua_cocos2dx_xiake_auto.cpp" />
     <ClCompile Include="..\..\..\..\external\lua\luasocket\auxiliar.c" />
     <ClCompile Include="..\..\..\..\external\lua\luasocket\buffer.c" />
     <ClCompile Include="..\..\..\..\external\lua\luasocket\except.c" />
@@ -86,6 +87,7 @@
     <ClCompile Include="..\manual\ui\lua_cocos2dx_ui_manual.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\..\cocos2d-x\cocos\scripting\lua-bindings\manual\user\lua_cocos2dx_xiake_auto.hpp" />
     <ClInclude Include="..\..\..\..\external\lua\luajit\include\lauxlib.h" />
     <ClInclude Include="..\..\..\..\external\lua\luajit\include\lua.h" />
     <ClInclude Include="..\..\..\..\external\lua\luajit\include\luaconf.h" />
@@ -232,7 +234,7 @@
     <ProjectGuid>{9F2D6CE6-C893-4400-B50C-6DB70CC2562F}</ProjectGuid>
     <RootNamespace>libluacocos2d</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

@@ -6,21 +6,17 @@
 #include "ui/CocosGUI.h"
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //地图管理
-struct MapTMXCache{
+struct CC_DLL MapTMXCache{
     std::map<std::string, std::string>		m_mapRes;
 };
 typedef std::map<std::string, MapTMXCache>	    MapTMXConfig;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-class CMapTMXCache{
+class CC_DLL CMapTMXCache{
 public:
     static CMapTMXCache* GetInstance();
 
-protected:
-    CMapTMXCache();
-    virtual ~CMapTMXCache();
-
-    //! bind read resourceset func
-    bool InitMapTMXCache(const std::function<bool(const char* pMapName, std::string& strResourceset)>& func);
+    //! bind read resourceset func "|="分割 
+    void InitMapTMXCache(const std::function<bool(const char* pMapName, std::string& strResourceset)>& func);
 
     //! create map
     cocos2d::experimental::TMXTiledMap* GetTMXMap(const char* pFileName);
@@ -30,6 +26,9 @@ protected:
 
     //! 预加载纹理,','分割
     void PreLoadTexture2DCache(const char* pFiles, bool bAddCache);
+protected:
+    CMapTMXCache();
+    virtual ~CMapTMXCache();
 protected:
     std::function<bool(const char* pMapName, std::string& strResourceset)> m_readFunc;
     ////////////////////////////////////////////////////////////////////

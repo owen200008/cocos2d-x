@@ -1,0 +1,18 @@
+#ifndef XMQXZ_UPDATELOGINLAYERUI_H
+#define XMQXZ_UPDATELOGINLAYERUI_H
+
+#include "ui/CocosGUI.h"
+#include "cocosreader/publiccocosreader.h"
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class CC_GUI_DLL CLikeWidget : public cocos2d::ui::Widget{
+public:
+    CLikeWidget(){}
+    virtual ~CLikeWidget(){}
+
+    CREATE_FUNC(CLikeWidget);
+};
+DECLARE_XMQXZREADER_HEADER_DEFINE(LikeWidgetReader, CLikeWidget)
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endif

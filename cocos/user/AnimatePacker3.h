@@ -12,7 +12,7 @@
 using namespace cocos2d;
 using namespace std;
 
-class AnimatePacker3 
+class CC_DLL AnimatePacker3
 {
 public:
 	static AnimatePacker3* GetInstance();

@@ -3,7 +3,7 @@
 
 #include "editor-support/cocostudio/ActionTimeline/CSLoader.h"
 
-class CSLoader_XiaKe : public cocos2d::CSLoader
+class CC_STUDIO_DLL CSLoader_XiaKe : public cocos2d::CSLoader
 {
 public:
 	CSLoader_XiaKe();
