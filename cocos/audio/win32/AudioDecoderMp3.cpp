@@ -179,5 +179,88 @@ namespace cocos2d { namespace experimental {
     {
         return static_cast<uint32_t>(mpg123_tell(_mpg123handle));
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    AudioDecoderMp3Buff::AudioDecoderMp3Buff()
+    {
+    }
+    AudioDecoderMp3Buff::~AudioDecoderMp3Buff()
+    {
 
+    }
+
+    /**
+    * @brief Opens an audio file specified by a file path.
+    * @return true if succeed, otherwise false.
+    */
+    bool AudioDecoderMp3Buff::open(const char* path)
+    {
+        std::string fullPath = FileUtils::getInstance()->fullPathForFilename(path);
+
+        long rate = 0;
+        int error = MPG123_OK;
+        int mp3Encoding = 0;
+        int channel = 0;
+        do
+        {
+            _mpg123handle = mpg123_new(nullptr, &error);
+            if (nullptr == _mpg123handle)
+            {
+                ALOGE("Basic setup goes wrong: %s", mpg123_plain_strerror(error));
+                break;
+            }
+
+            Data data = FileUtils::getInstance()->getDataFromFile(fullPath);
+
+            if (mpg123_open_feed(_mpg123handle) != MPG123_OK 
+                || mpg123_feed(_mpg123handle, data.getBytes(), data.getSize()) != MPG123_OK
+                || mpg123_getformat(_mpg123handle, &rate, &channel, &mp3Encoding) != MPG123_OK)
+            {
+                ALOGE("Trouble with mpg123: %s\n", mpg123_strerror(_mpg123handle));
+                break;
+            }
+
+            _channelCount = channel;
+            _sampleRate = rate;
+
+            if (mp3Encoding == MPG123_ENC_SIGNED_16)
+            {
+                _bytesPerFrame = 2 * _channelCount;
+            }
+            else if (mp3Encoding == MPG123_ENC_FLOAT_32)
+            {
+                _bytesPerFrame = 4 * _channelCount;
+            }
+            else
+            {
+                ALOGE("Bad encoding: 0x%x!\n", mp3Encoding);
+                break;
+            }
+
+            /* Ensure that this output format will not change (it could, when we allow it). */
+            mpg123_format_none(_mpg123handle);
+            mpg123_format(_mpg123handle, rate, channel, mp3Encoding);
+
+            _totalFrames = mpg123_length(_mpg123handle);
+
+            _isOpened = true;
+            return true;
+        } while (false);
+
+        if (_mpg123handle != nullptr)
+        {
+            mpg123_close(_mpg123handle);
+            mpg123_delete(_mpg123handle);
+            _mpg123handle = nullptr;
+        }
+        return false;
+    }
+
+    bool AudioDecoderMp3Buff::IsBufferMode() const{
+        return true;
+    }
+    bool AudioDecoderMp3Buff::seek(uint32_t frameOffset)
+    {
+        assert(0);
+        return false;
+    }
 }} // namespace cocos2d { namespace experimental {

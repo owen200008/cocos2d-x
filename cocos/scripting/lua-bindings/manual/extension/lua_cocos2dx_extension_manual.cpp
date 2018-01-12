@@ -975,7 +975,7 @@ static int lua_cocos2dx_Extension_EventListenerAssetsManagerEx_create(lua_State*
         cocos2d::extension::EventListenerAssetsManagerEx* ret = cocos2d::extension::EventListenerAssetsManagerEx::create(assetManager, [=](EventAssetsManagerEx* event){
             int id = event? (int)event->_ID : -1;
             int* luaID = event? &event->_luaID : nullptr;
-            toluafix_pushusertype_ccobject(L, id, luaID, (void*)event,"cc.EventAssetsManagerEx");
+            toluafix_pushusertype_ccobject(LuaEngine::getInstance()->getLuaStack()->getLuaState(), id, luaID, (void*)event,"cc.EventAssetsManagerEx");
             LuaEngine::getInstance()->getLuaStack()->executeFunctionByHandler(handler, 1);
         });
         

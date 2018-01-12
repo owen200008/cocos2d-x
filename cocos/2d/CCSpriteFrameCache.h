@@ -87,6 +87,14 @@ class PolygonInfo;
 class CC_DLL SpriteFrameCache : public Ref
 {
 public:
+    // MARMALADE: Made this protected not private, as deriving from this class is pretty useful
+    SpriteFrameCache(){}
+
+    /**
+    create by user self spriteframecache
+    */
+    static void setCreateFunc(const std::function<void(SpriteFrameCache*&, bool)>& func);
+
     /** Returns the shared instance of the Sprite Frame cache.
      *
      * @return The instance of the Sprite Frame Cache.
@@ -240,8 +248,6 @@ public:
     bool reloadTexture(const std::string& plist);
 
 protected:
-    // MARMALADE: Made this protected not private, as deriving from this class is pretty useful
-    SpriteFrameCache(){}
 
     /*Adds multiple Sprite Frames with a dictionary. The texture will be associated with the created sprite frames.
      */

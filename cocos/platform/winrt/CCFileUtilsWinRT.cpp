@@ -83,20 +83,12 @@ static void _checkPath()
     }
 }
 
-FileUtils* FileUtils::getInstance()
-{
-    if (s_sharedFileUtils == nullptr)
-    {
-        s_sharedFileUtils = new CCFileUtilsWinRT();
-        if(!s_sharedFileUtils->init())
-        {
-          delete s_sharedFileUtils;
-          s_sharedFileUtils = nullptr;
-          CCLOG("ERROR: Could not init CCFileUtilsWinRT");
-        }
-    }
-    return s_sharedFileUtils;
-}
+std::function<void(FileUtils*&, bool)> FileUtils::_sharedDefaultCreate = [](FileUtils*& pPoint, bool bCreate)->void{
+	if(bCreate)
+		pPoint = new CCFileUtilsWinRT();
+	else
+		CC_SAFE_DELETE(pPoint);
+};
 
 CCFileUtilsWinRT::CCFileUtilsWinRT()
 {

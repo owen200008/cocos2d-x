@@ -23,7 +23,7 @@ AudioDecoder* AudioDecoderProvider::createAudioDecoder(SLEngineItf engineItf, co
             decoder = nullptr;
         }
     }
-    else if (extension == ".mp3")
+    else if (extension == ".mp3" || extension == ".buff")
     {
         decoder = new AudioDecoderMp3();
         if (!decoder->init(url, sampleRate))

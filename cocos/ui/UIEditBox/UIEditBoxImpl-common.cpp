@@ -31,6 +31,7 @@
 #include "base/CCDirector.h"
 #include "2d/CCLabel.h"
 #include "ui/UIHelper.h"
+#include "platform/CCFileUtils.h"
 
 static const int CC_EDIT_BOX_PADDING = 5;
 
@@ -93,14 +94,14 @@ void EditBoxImplCommon::initInactiveLabels(const Size& size)
     const char* pDefaultFontName = this->getNativeDefaultFontName();
 
     _label = Label::create();
-    _label->setAnchorPoint(Vec2(0,1));
+    _label->setAnchorPoint(Vec2(0,0.5));
     _label->setOverflow(Label::Overflow::CLAMP);
     _label->setVisible(false);
     _editBox->addChild(_label, kLabelZOrder);
     
     _labelPlaceHolder = Label::create();
-    _labelPlaceHolder->setAnchorPoint(Vec2(0, 1.0f));
-    _labelPlaceHolder->setTextColor(Color4B::GRAY);
+    _labelPlaceHolder->setAnchorPoint(Vec2(0, 0.5));
+    _labelPlaceHolder->setColor(Color3B::GRAY);
     _labelPlaceHolder->enableWrap(false);
     _editBox->addChild(_labelPlaceHolder, kLabelZOrder);
     
@@ -110,28 +111,26 @@ void EditBoxImplCommon::initInactiveLabels(const Size& size)
 
 void EditBoxImplCommon::placeInactiveLabels(const Size& size)
 {
-    _label->setDimensions(size.width, size.height);
-    
-    auto placeholderSize = _labelPlaceHolder->getContentSize();
-    
-    if(_editBoxInputMode == EditBox::InputMode::ANY){
-        _label->setPosition(Vec2(CC_EDIT_BOX_PADDING, size.height - CC_EDIT_BOX_PADDING));
-        _label->setVerticalAlignment(TextVAlignment::TOP);
-        _label->enableWrap(true);
-        
-        _labelPlaceHolder->setPosition(Vec2(CC_EDIT_BOX_PADDING,
-                                            size.height - CC_EDIT_BOX_PADDING));
-        _labelPlaceHolder->setVerticalAlignment(TextVAlignment::TOP);
-    }
-    else {
-        _label->enableWrap(false);
-        _label->setPosition(Vec2(CC_EDIT_BOX_PADDING, size.height));
-        _label->setVerticalAlignment(TextVAlignment::CENTER);
-        
-        _labelPlaceHolder->setPosition(Vec2(CC_EDIT_BOX_PADDING,
-                                            (size.height + placeholderSize.height) / 2));
-        _labelPlaceHolder->setVerticalAlignment(TextVAlignment::CENTER);
-    }
+	if(_editBoxInputMode == EditBox::InputMode::ANY){
+		_label->setAnchorPoint(Vec2(0, 1));
+		_label->setPosition(Vec2(CC_EDIT_BOX_PADDING, size.height - CC_EDIT_BOX_PADDING));
+		_label->setVerticalAlignment(TextVAlignment::TOP);
+		_label->enableWrap(true);
+
+		_labelPlaceHolder->setAnchorPoint(Vec2(0, 1));
+		_labelPlaceHolder->setPosition(Vec2(CC_EDIT_BOX_PADDING,
+											size.height - CC_EDIT_BOX_PADDING));
+		_labelPlaceHolder->setVerticalAlignment(TextVAlignment::TOP);
+	}
+	else{
+		_label->setAnchorPoint(Vec2(0, 0.5));
+		_label->setPosition(CC_EDIT_BOX_PADDING, _contentSize.height / 2.0f);
+		_label->setVerticalAlignment(TextVAlignment::CENTER);
+		_labelPlaceHolder->setAnchorPoint(Vec2(0, 0.5));
+		_labelPlaceHolder->setPosition(CC_EDIT_BOX_PADDING, _contentSize.height / 2.0f);
+		_labelPlaceHolder->setVerticalAlignment(TextVAlignment::CENTER);
+	}
+
 }
 
 void EditBoxImplCommon::setInactiveText(const char* pText)
@@ -160,15 +159,22 @@ void EditBoxImplCommon::setFont(const char* pFontName, int fontSize)
 {
     _fontName = pFontName;
     _fontSize = fontSize;
-    this->setNativeFont(pFontName, fontSize * _label->getNodeToWorldAffineTransform().a);
-    if (!_fontName.empty())
-    {
-        _label->setSystemFontName(pFontName);
-    }
-    if (fontSize > 0)
-    {
-        _label->setSystemFontSize(fontSize);
-    }
+	this->setNativeFont(pFontName, fontSize * _label->getNodeToWorldAffineTransform().a);
+	//支持自定义字体
+	if(FileUtils::getInstance()->isFileExist(pFontName)){
+		cocos2d::TTFConfig ttfConfig = _label->getTTFConfig();
+		ttfConfig.fontFilePath = pFontName;
+		ttfConfig.fontSize = fontSize;
+		_label->setTTFConfig(ttfConfig);
+	}
+	else{
+		if (!_fontName.empty()){
+			_label->setSystemFontName(pFontName);
+		}
+		if (fontSize > 0){
+			_label->setSystemFontSize(fontSize);
+		}
+	}
 }
 
 void EditBoxImplCommon::setFontColor(const Color4B& color)
@@ -183,14 +189,21 @@ void EditBoxImplCommon::setPlaceholderFont(const char* pFontName, int fontSize)
     _placeholderFontName = pFontName;
     _placeholderFontSize = fontSize;
     this->setNativePlaceholderFont(pFontName, fontSize * _labelPlaceHolder->getNodeToWorldAffineTransform().a);
-    if (!_placeholderFontName.empty())
-    {
-        _labelPlaceHolder->setSystemFontName(pFontName);
-    }
-    if (fontSize > 0)
-    {
-        _labelPlaceHolder->setSystemFontSize(fontSize);
-    }
+	//支持自定义字体
+	if(FileUtils::getInstance()->isFileExist(pFontName)){
+		cocos2d::TTFConfig ttfConfig = _label->getTTFConfig();
+		ttfConfig.fontFilePath = pFontName;
+		ttfConfig.fontSize = fontSize;
+		_labelPlaceHolder->setTTFConfig(ttfConfig);
+	}
+	else{
+		if (!_placeholderFontName.empty()){
+			_labelPlaceHolder->setSystemFontName(pFontName);
+		}
+		if (fontSize > 0){
+			_labelPlaceHolder->setSystemFontSize(fontSize);
+		}
+	}
 }
     
 void EditBoxImplCommon::setPlaceholderFontColor(const Color4B &color)

@@ -486,7 +486,7 @@ static int lua_cocos2dx_ActionTimeline_setFrameEventCallFunc(lua_State* L)
         
         LUA_FUNCTION handler = (  toluafix_ref_function(L,2,0));
         self->setFrameEventCallFunc([=](cocostudio::timeline::Frame* frame){
-            toluafix_pushusertype_ccobject(L, frame->_ID, &frame->_luaID, (void*)frame, getLuaTypeName(frame, "ccs.Frame"));
+            toluafix_pushusertype_ccobject(LuaEngine::getInstance()->getLuaStack()->getLuaState(), frame->_ID, &frame->_luaID, (void*)frame, getLuaTypeName(frame, "ccs.Frame"));
             LuaEngine::getInstance()->getLuaStack()->executeFunctionByHandler(handler, 1);
         });
         

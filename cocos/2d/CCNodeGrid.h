@@ -108,6 +108,16 @@ protected:
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(NodeGrid);
 };
+class NodeGridDeepCopy : public NodeGrid{
+public:
+    static NodeGridDeepCopy* create();
+    void setTarget(Node *target);
+
+    // overrides
+    virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
+protected:
+    bool m_bTargetDirty;
+};
 /** @} */
 NS_CC_END
 

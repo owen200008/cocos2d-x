@@ -292,6 +292,9 @@
     <Filter Include="external\md5">
       <UniqueIdentifier>{d3d38486-e13f-47b4-96b0-51a7c78e6d69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="user">
+      <UniqueIdentifier>{378decb3-daf7-4474-b032-40337d295da1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\physics\CCPhysicsBody.cpp">
@@ -2000,6 +2003,18 @@
     <ClCompile Include="..\base\CCController-linux-win32.cpp" />
     <ClCompile Include="..\base\CCEventController.cpp" />
     <ClCompile Include="..\base\CCEventListenerController.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSLoader_XiaKe.cpp">
+      <Filter>user</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CCSpriteFrameCache_XiaKe.cpp">
+      <Filter>user</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSTMXMap_XiaKe.cpp">
+      <Filter>user</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\AnimatePacker3.cpp">
+      <Filter>user</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\physics\CCPhysicsBody.h">
@@ -3911,6 +3926,18 @@
     <ClInclude Include="..\base\CCController.h" />
     <ClInclude Include="..\base\CCEventController.h" />
     <ClInclude Include="..\base\CCEventListenerController.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CCSpriteFrameCache_XiaKe.h">
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSLoader_XiaKe.h">
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSTMXMap_XiaKe.h">
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\AnimatePacker3.h">
+      <Filter>user</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\math\Mat4.inl">

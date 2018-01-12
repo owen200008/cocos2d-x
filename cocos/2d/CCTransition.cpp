@@ -36,6 +36,7 @@ THE SOFTWARE.
 #include "2d/CCRenderTexture.h"
 #include "2d/CCNodeGrid.h"
 #include "base/CCDirector.h"
+#include "2d/CCCamera.h"
 #include "base/CCEventDispatcher.h"
 
 NS_CC_BEGIN
@@ -1278,6 +1279,68 @@ void TransitionFade::onExit()
     this->removeChildByTag(kSceneFade, false);
 }
 
+class TransitionCrossFade;
+class CTrCrossFadeNode : public cocos2d::Node
+{
+public:
+	CTrCrossFadeNode()
+	{
+		m_pOutScene = nullptr;
+	}
+	virtual ~CTrCrossFadeNode(){}
+
+	CREATE_FUNC(CTrCrossFadeNode);
+	virtual void onEnter() override
+	{
+		Node::onEnter();
+	}
+	//
+	void SetNodeCascadeOpacityEnabled(cocos2d::Node* pNode, bool bEnable)
+	{
+		if (pNode)
+		{
+			pNode->setCascadeOpacityEnabled(true);
+			for (const auto& child : pNode->getChildren())
+			{
+				SetNodeCascadeOpacityEnabled(child, bEnable);
+			}
+		}
+	}
+	void StartTransitionCrossFade(TransitionCrossFade* pFather, Scene* pNode, float fTime)
+	{
+		m_pOutScene = pNode;
+		SetNodeCascadeOpacityEnabled(m_pOutScene, true);
+		// create the blend action
+		Action* layerAction = Sequence::create
+			(
+			FadeTo::create(fTime, 0),
+			CallFunc::create(CC_CALLBACK_0(TransitionScene::hideOutShowIn, pFather)),
+			CallFunc::create(CC_CALLBACK_0(TransitionScene::finish, pFather)),
+			nullptr
+			);
+
+		// run the blend action
+		runAction(layerAction);
+	}
+	virtual void draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
+	{
+		Node::draw(renderer, transform, flags);
+		if (m_pOutScene)
+		{
+			m_pOutScene->draw(renderer, transform, flags);
+		}
+	}
+	virtual void setOpacity(GLubyte opacity)
+	{
+		Node::setOpacity(opacity);
+		if (m_pOutScene)
+		{
+			m_pOutScene->setOpacity(opacity);
+		}
+	}
+protected:
+	Scene* m_pOutScene;
+};
 //
 // Cross Fade Transition
 //
@@ -1308,8 +1371,10 @@ void TransitionCrossFade::draw(Renderer* /*renderer*/, const Mat4 &/*transform*/
 void TransitionCrossFade::onEnter()
 {
     TransitionScene::onEnter();
-
-    // create a transparent color layer
+	CTrCrossFadeNode* pNode = CTrCrossFadeNode::create();
+	pNode->StartTransitionCrossFade(this, _outScene, _duration);
+	addChild(pNode);
+    /*// create a transparent color layer
     // in which we are going to add our rendertextures
     Color4B  color(0,0,0,0);
     Size size = Director::getInstance()->getWinSize();
@@ -1371,7 +1436,7 @@ void TransitionCrossFade::onEnter()
     outTexture->getSprite()->runAction( layerAction );
 
     // add the layer (which contains our two rendertextures) to the scene
-    addChild(layer, 2, kSceneFade);
+    addChild(layer, 2, kSceneFade);*/
 }
 
 // clean up on exit
@@ -1473,7 +1538,7 @@ ActionInterval* TransitionTurnOffTiles:: easeActionWithAction(ActionInterval* ac
 //
 TransitionSplitCols::TransitionSplitCols()
 {
-    _gridProxy = NodeGrid::create();
+    _gridProxy = NodeGridDeepCopy::create();
     _gridProxy->retain();
 }
 TransitionSplitCols::~TransitionSplitCols()

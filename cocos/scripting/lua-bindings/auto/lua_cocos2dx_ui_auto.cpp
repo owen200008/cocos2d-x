@@ -3127,7 +3127,22 @@ int lua_cocos2dx_ui_Widget_hitTest(lua_State* tolua_S)
 #endif
 
     argc = lua_gettop(tolua_S)-1;
-    if (argc == 3) 
+	if(argc == 2){
+		cocos2d::Vec2 arg0;
+		const cocos2d::Camera* arg1;
+
+		ok &= luaval_to_vec2(tolua_S, 2, &arg0, "ccui.Widget:hitTest");
+
+		ok &= luaval_to_object<const cocos2d::Camera>(tolua_S, 3, "cc.Camera", &arg1, "ccui.Widget:hitTest");
+		if(!ok){
+			tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_ui_Widget_hitTest'", nullptr);
+			return 0;
+		}
+		bool ret = cobj->hitTest(arg0, arg1, nullptr);
+		tolua_pushboolean(tolua_S, (bool)ret);
+		return 1;
+	}
+    else if (argc == 3) 
     {
         cocos2d::Vec2 arg0;
         const cocos2d::Camera* arg1;
@@ -18514,7 +18529,7 @@ int lua_cocos2dx_ui_ListView_addEventListener(lua_State* tolua_S)
     argc = lua_gettop(tolua_S)-1;
     if (argc == 1) 
     {
-        std::function<void (cocos2d::Ref *, cocos2d::ui::ListView::EventType)> arg0;
+        std::function<void (cocos2d::Ref *, cocos2d::ui::ListView::EventType, Touch* pTouch)> arg0;
 
         do {
 			// Lambda binding for lua is not supported.

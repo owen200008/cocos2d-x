@@ -34,6 +34,7 @@ THE SOFTWARE.
 #include "audio/android/CCThreadPool.h"
 #include "audio/android/ICallerThreadUtils.h"
 #include "audio/android/utils/Utils.h"
+#include "platform/CCFileUtils.h"
 
 #include <sys/system_properties.h>
 #include <stdlib.h>
@@ -72,7 +73,8 @@ static AudioFileIndicator __audioFileIndicator[] = {
         {"default", 128000}, // If we could not handle the audio format, return default value, the position should be first.
         {".wav",    1024000},
         {".ogg",    128000},
-        {".mp3",    160000}
+        {".mp3",    160000},
+		{".buff",   0x0FFFFFFF}
 };
 
 AudioPlayerProvider::AudioPlayerProvider(SLEngineItf engineItf, SLObjectItf outputMixObject,
@@ -381,17 +383,10 @@ AudioPlayerProvider::AudioFileInfo AudioPlayerProvider::getFileInfo(
     }
     else
     {
-        FILE *fp = fopen(audioFilePath.c_str(), "rb");
-        if (fp != nullptr)
-        {
-            fseek(fp, 0, SEEK_END);
-            fileSize = ftell(fp);
-            fclose(fp);
-        }
-        else
-        {
+		long lRet = FileUtils::getInstance()->getFileSize(audioFilePath);
+        if(lRet == 0)
             return info;
-        }
+        fileSize = lRet;
     }
 
     info.url = audioFilePath;

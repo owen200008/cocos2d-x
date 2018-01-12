@@ -31,6 +31,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 namespace experimental {
 
+std::function<bool(std::string&, std::string&, Texture2D*& bLocal)> TMXTiledMap::m_funcPListCallback;
 // implementation FastTMXTiledMap
 
 TMXTiledMap * TMXTiledMap::create(const std::string& tmxFile)
@@ -61,6 +62,8 @@ bool TMXTiledMap::initWithTMXFile(const std::string& tmxFile)
 {
     CCASSERT(tmxFile.size()>0, "FastTMXTiledMap: tmx file should not be empty");
     
+	m_tmxFileName = tmxFile;
+	
     setContentSize(Size::ZERO);
 
     TMXMapInfo *mapInfo = TMXMapInfo::create(tmxFile);
@@ -104,7 +107,16 @@ TMXLayer * TMXTiledMap::parseLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
     if (tileset == nullptr)
         return nullptr;
     
-    TMXLayer *layer = TMXLayer::create(tileset, layerInfo, mapInfo);
+	TMXLayer *layer = NULL;
+	if(m_funcPListCallback != nullptr){
+		Texture2D* pTexture = nullptr;
+		bool bPList = m_funcPListCallback(m_tmxFileName, tileset->_name, pTexture);
+		if(bPList && pTexture){
+			layer = TMXLayer::createByTexture2D(pTexture, layerInfo, mapInfo);
+		}
+	}
+	if(layer == nullptr)
+		layer = TMXLayer::create(tileset, layerInfo, mapInfo);
 
     // tell the layerinfo to release the ownership of the tiles map.
     layerInfo->_ownTiles = false;

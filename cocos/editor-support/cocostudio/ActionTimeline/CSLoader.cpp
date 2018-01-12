@@ -174,20 +174,33 @@ static const char* MONO_COCOS2D_VERSION     = "cocos2dVersion";
 // CSLoader
 static CSLoader* _sharedCSLoader = nullptr;
 
+std::function<void(CSLoader*&, bool)> CSLoader::_sharedDefaultCreateLoad = [](CSLoader*& pPoint, bool bCreate)->void{
+	if(bCreate)
+		pPoint = new (std::nothrow) CSLoader();
+	else
+		CC_SAFE_DELETE(pPoint);
+};
 CSLoader* CSLoader::getInstance()
 {
     if (! _sharedCSLoader)
     {
-        _sharedCSLoader = new (std::nothrow) CSLoader();
+		_sharedDefaultCreateLoad(_sharedCSLoader, true);
         _sharedCSLoader->init();
     }
     
     return _sharedCSLoader;
 }
+/**
+create by user self spriteframecache
+*/
+void CSLoader::setCreateFunc(const std::function<void(CSLoader*&, bool)>& func){
+	destroyInstance();
+	_sharedDefaultCreateLoad = func;
+}
 
 void CSLoader::destroyInstance()
 {
-    CC_SAFE_DELETE(_sharedCSLoader);
+	_sharedDefaultCreateLoad(_sharedCSLoader, false);
     ActionTimelineCache::destroyInstance();
 }
 
@@ -950,9 +963,7 @@ Node* CSLoader::nodeWithFlatBuffersFile(const std::string &fileName, const ccNod
 {
     std::string fullPath = FileUtils::getInstance()->fullPathForFilename(fileName);
     
-    CC_ASSERT(FileUtils::getInstance()->isFileExist(fullPath));
-    
-    Data buf = FileUtils::getInstance()->getDataFromFile(fullPath);
+	Data buf = getDataBufferFromFile(fullPath);
 
     if (buf.isNull())
     {
@@ -1020,7 +1031,7 @@ Node* CSLoader::nodeWithFlatBuffers(const flatbuffers::NodeTree *nodetree, const
             cocostudio::timeline::ActionTimeline* action = nullptr;
             if (filePath != "" && FileUtils::getInstance()->isFileExist(filePath))
             {
-                Data buf = FileUtils::getInstance()->getDataFromFile(filePath);
+				Data buf = getDataBufferFromFile(filePath);
                 node = createNode(buf, callback);
                 action = createTimeline(buf, filePath);
             }
@@ -1463,5 +1474,11 @@ Node* CSLoader::nodeWithFlatBuffersForSimulator(const flatbuffers::NodeTree *nod
     
     return node;
 }
+
+cocos2d::Data CSLoader::getDataBufferFromFile(const std::string &fullPath){
+	CC_ASSERT(FileUtils::getInstance()->isFileExist(fullPath));
+	return FileUtils::getInstance()->getDataFromFile(fullPath);
+}
+
 
 NS_CC_END

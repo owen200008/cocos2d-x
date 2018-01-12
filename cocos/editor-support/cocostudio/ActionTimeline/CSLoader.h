@@ -72,8 +72,9 @@ class CC_STUDIO_DLL CSLoader
 public:
     static CSLoader* getInstance();
     static void destroyInstance();
-    
+	static void setCreateFunc(const std::function<void(CSLoader*&, bool)>& func);
     CSLoader();
+	virtual ~CSLoader(){}
     /** @deprecated Use method destroyInstance() instead */
     CC_DEPRECATED_ATTRIBUTE void purge();    
     
@@ -119,6 +120,7 @@ public:
     cocos2d::Node* createNodeWithFlatBuffersForSimulator(const std::string& filename);
     cocos2d::Node* nodeWithFlatBuffersForSimulator(const flatbuffers::NodeTree* nodetree);
 
+	virtual cocos2d::Data getDataBufferFromFile(const std::string &fileName);
 protected:
 
     cocos2d::Node* createNodeWithFlatBuffersFile(const std::string& filename, const ccNodeLoadCallback& callback);
@@ -175,6 +177,7 @@ protected:
     
     std::string _csBuildID;
     
+    static std::function<void(CSLoader*&, bool)> _sharedDefaultCreateLoad;
 };
 
 NS_CC_END

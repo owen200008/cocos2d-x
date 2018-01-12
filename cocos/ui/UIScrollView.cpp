@@ -78,6 +78,7 @@ _scrollViewEventListener(nullptr),
 _scrollViewEventSelector(nullptr),
 _eventCallback(nullptr)
 {
+	m_bFixInnerPosition = true;
     setTouchEnabled(true);
     _propagateTouchEvents = false;
 }
@@ -201,7 +202,19 @@ void ScrollView::setInnerContainerSize(const Size &size)
         innerSizeHeight = size.height;
     }
     _innerContainer->setContentSize(Size(innerSizeWidth, innerSizeHeight));
-
+	if (!m_bFixInnerPosition){
+        // move children appropriately
+        {
+            Size newInnerSize = _innerContainer->getContentSize();
+            float offsetY = originalInnerSize.height - newInnerSize.height;
+            float offsetX = originalInnerSize.width - newInnerSize.width;
+            if (offsetX != 0 || offsetY != 0)
+            {
+                Vec2 position = _innerContainer->getPosition() + Vec2(offsetX, offsetY);
+                setInnerContainerPosition(position);
+            }
+        }
+    }
     // Calculate and set the position of the inner container.
     Vec2 pos = _innerContainer->getPosition();
     if (_innerContainer->getLeftBoundary() != 0.0f)

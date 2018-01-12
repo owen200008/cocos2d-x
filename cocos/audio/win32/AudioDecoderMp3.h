@@ -82,4 +82,27 @@ protected:
     friend class AudioDecoderManager;
 };
 
+class AudioDecoderMp3Buff : public AudioDecoderMp3
+{
+public:
+    AudioDecoderMp3Buff();
+    virtual ~AudioDecoderMp3Buff();
+
+    /**
+    * @brief Opens an audio file specified by a file path.
+    * @return true if succeed, otherwise false.
+    */
+    virtual bool open(const char* path) override;
+    /**
+    * @brief Sets frame offest to be read.
+    * @param frameOffset The frame offest to be set.
+    * @return true if succeed, otherwise false
+    */
+    virtual bool seek(uint32_t frameOffset) override;
+    /**
+    * is buffer mode
+    */
+    virtual bool IsBufferMode() const override;
+};
+
 }} // namespace cocos2d { namespace experimental {

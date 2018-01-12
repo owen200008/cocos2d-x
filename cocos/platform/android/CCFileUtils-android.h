@@ -73,7 +73,7 @@ public:
     
     virtual long getFileSize(const std::string& filepath) override;
 
-private:
+protected:
     virtual bool isFileExistInternal(const std::string& strFilePath) const override;
     virtual bool isDirectoryExistInternal(const std::string& dirPath) const override;
 

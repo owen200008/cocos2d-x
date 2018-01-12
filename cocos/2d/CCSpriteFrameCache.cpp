@@ -48,12 +48,25 @@ using namespace std;
 NS_CC_BEGIN
 
 static SpriteFrameCache *_sharedSpriteFrameCache = nullptr;
+static std::function<void(SpriteFrameCache*&, bool)> _sharedDefaultCreate = [](SpriteFrameCache*& pPoint, bool bCreate)->void{
+    if(bCreate)
+        pPoint = new (std::nothrow) SpriteFrameCache();
+    else
+        CC_SAFE_RELEASE_NULL(pPoint);
+};
+/**
+create by user self spriteframecache
+*/
+void SpriteFrameCache::setCreateFunc(const std::function<void(SpriteFrameCache*&, bool)>& func){
+    destroyInstance();
+    _sharedDefaultCreate = func;
+}
 
 SpriteFrameCache* SpriteFrameCache::getInstance()
 {
     if (! _sharedSpriteFrameCache)
     {
-        _sharedSpriteFrameCache = new (std::nothrow) SpriteFrameCache();
+        _sharedDefaultCreate(_sharedSpriteFrameCache, true);
         _sharedSpriteFrameCache->init();
     }
 
@@ -62,7 +75,7 @@ SpriteFrameCache* SpriteFrameCache::getInstance()
 
 void SpriteFrameCache::destroyInstance()
 {
-    CC_SAFE_RELEASE_NULL(_sharedSpriteFrameCache);
+    _sharedDefaultCreate(_sharedSpriteFrameCache, false);
 }
 
 bool SpriteFrameCache::init()

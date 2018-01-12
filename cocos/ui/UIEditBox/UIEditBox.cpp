@@ -100,16 +100,16 @@ bool EditBox::initWithSizeAndBackgroundSprite(const cocos2d::Size &size, cocos2d
     {
         _editBoxImpl = __createSystemEditBox(this);
         _editBoxImpl->initWithSize(size);
-        _editBoxImpl->setInputMode(EditBox::InputMode::ANY);
+        _editBoxImpl->setInputMode(EditBox::InputMode::SINGLE_LINE);
         
-        _backgroundSprite = pNormal9SpriteBg;
+        //_backgroundSprite = pNormal9SpriteBg;
         
         this->setContentSize(size);
         this->setPosition(Vec2(0, 0));
         
-        _backgroundSprite->setPosition(Vec2(_contentSize.width/2, _contentSize.height/2));
-        _backgroundSprite->setContentSize(size);
-        this->addProtectedChild(_backgroundSprite);
+        //_backgroundSprite->setPosition(Vec2(_contentSize.width/2, _contentSize.height/2));
+        //_backgroundSprite->setContentSize(size);
+        //this->addProtectedChild(_backgroundSprite);
         
         this->setTouchEnabled(true);
         
@@ -131,20 +131,20 @@ bool EditBox::initWithSizeAndBackgroundSprite(const Size& size,
         _editBoxImpl->initWithSize(size);
         _editBoxImpl->setInputMode(EditBox::InputMode::ANY);
        
-        if (texType == Widget::TextureResType::LOCAL)
+        /*if (texType == Widget::TextureResType::LOCAL)
         {
             _backgroundSprite = Scale9Sprite::create(pNormal9SpriteBg);
         }
         else
         {
             _backgroundSprite = Scale9Sprite::createWithSpriteFrameName(pNormal9SpriteBg);
-        }
+        }*/
         this->setContentSize(size);
         this->setPosition(Vec2(0, 0));
         
-        _backgroundSprite->setPosition(Vec2(_contentSize.width/2, _contentSize.height/2));
-        _backgroundSprite->setContentSize(size);
-        this->addProtectedChild(_backgroundSprite);
+        //_backgroundSprite->setPosition(Vec2(_contentSize.width/2, _contentSize.height/2));
+        //_backgroundSprite->setContentSize(size);
+        //this->addProtectedChild(_backgroundSprite);
         
         this->setTouchEnabled(true);
         
@@ -467,8 +467,8 @@ void EditBox::adaptRenderers()
 {
     if (_contentSizeDirty)
     {
-        _backgroundSprite->setContentSize(_contentSize);
-        _backgroundSprite->setPosition(Vec2(_contentSize.width/2, _contentSize.height/2));
+        //_backgroundSprite->setContentSize(_contentSize);
+        //_backgroundSprite->setPosition(Vec2(_contentSize.width/2, _contentSize.height/2));
     }
 }
 

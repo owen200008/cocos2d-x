@@ -38,25 +38,25 @@ public:
     static const uint32_t INVALID_FRAME_INDEX = UINT32_MAX;
 
     AudioDecoder();
-    ~AudioDecoder();
+    virtual ~AudioDecoder();
 
     /**
      * @brief Opens an audio file specified by a file path.
      * @return true if succeed, otherwise false.
      */
-    bool open(const char* path);
+    virtual bool open(const char* path);
 
     /**
      * @brief Checks whether decoder has opened file successfully.
      * @return true if succeed, otherwise false.
      */
-    bool isOpened() const;
+    virtual bool isOpened() const;
 
     /**
      * @brief Closes opened audio file.
      * @note The method will also be automatically invoked in the destructor.
      */
-    void close();
+    virtual void close();
 
     /**
      * @brief Reads audio frames of PCM format.
@@ -64,7 +64,7 @@ public:
      * @param pcmBuf The buffer to hold the frames to be read, its size should be >= |framesToRead| * _bytesPerFrame.
      * @return The number of frames actually read, it's probably less than 'framesToRead'. Returns 0 means reach the end of file.
      */
-    uint32_t read(uint32_t framesToRead, char* pcmBuf);
+    virtual uint32_t read(uint32_t framesToRead, char* pcmBuf);
 
     /**
      * @brief Reads fixed audio frames of PCM format.
@@ -83,13 +83,13 @@ public:
      * @param frameOffset The frame offest to be set.
      * @return true if succeed, otherwise false
      */
-    bool seek(uint32_t frameOffset);
+    virtual bool seek(uint32_t frameOffset);
 
     /**
      * @brief Tells the current frame offset.
      * @return The current frame offset.
      */
-    uint32_t tell() const;
+    virtual uint32_t tell() const;
 
     /** Gets total frames of current audio.*/
     uint32_t getTotalFrames() const;
@@ -105,15 +105,17 @@ public:
      */
     uint32_t getChannelCount() const;
 
-private:
+	/**
+    * use getdatafromfile to read all data
+    */
+    virtual bool IsBufferMode() const;
+protected:
     bool _isOpened;
-    ExtAudioFileRef _extRef;
+
     uint32_t _totalFrames;
     uint32_t _bytesPerFrame;
     uint32_t _sampleRate;
     uint32_t _channelCount;
-
-    AudioStreamBasicDescription _outputFormat;
 };
 
 }} // namespace cocos2d { namespace experimental {

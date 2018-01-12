@@ -9,6 +9,7 @@ Thumbs.db
 *.vcproj.*.user
 *.vcxproj.user
 *.csproj.user
+*.vcxproj
 *.vspscc
 *_i.c
 *.i

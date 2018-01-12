@@ -729,6 +729,7 @@ int lua_cocos2dx_physics3d_Physics3DObject_setCollisionCallback(lua_State* L)
 #endif
         LUA_FUNCTION handler = toluafix_ref_function(L,2,0);
         cobj->setCollisionCallback([=](const cocos2d::Physics3DCollisionInfo& ci){
+			lua_State* L = LuaEngine::getInstance()->getLuaStack()->getLuaState();
             lua_newtable(L);
             lua_pushstring(L, "objA");
             if (nullptr == ci.objA)

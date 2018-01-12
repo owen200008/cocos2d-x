@@ -56,7 +56,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 // FIXME:: Yes, nodes might have a sort problem once every 30 days if the game runs at 60 FPS and each frame sprites are reordered.
-std::uint32_t Node::s_globalOrderOfArrival = 0;
+unsigned int Node::s_globalOrderOfArrival = 0;
 int Node::__attachedNodeCount = 0;
 
 // MARK: Constructor, Destructor, Init
@@ -83,7 +83,7 @@ Node::Node()
 , _transformUpdated(true)
 // children (lazy allocs)
 // lazy alloc
-, _localZOrder$Arrival(0LL)
+, _localZOrder(0)
 , _globalZOrder(0)
 , _parent(nullptr)
 // "whole screen" objects. like Scenes and Layers, should set _ignoreAnchorPointForPosition to true
@@ -103,6 +103,7 @@ Node::Node()
 , _updateScriptHandler(0)
 #endif
 , _componentContainer(nullptr)
+, _componentContainerNoUpdate(nullptr)
 , _displayedOpacity(255)
 , _realOpacity(255)
 , _displayedColor(Color3B::WHITE)
@@ -154,6 +155,13 @@ Node::~Node()
     CCLOGINFO( "deallocing Node: %p - tag: %i", this, _tag );
     
 #if CC_ENABLE_SCRIPT_BINDING
+    if(_scriptType == kScriptTypeJavascript){
+        if(ScriptEngineManager::sendNodeEventToJS(this, kNodeOnDestroy))
+            return;
+    }
+    else if(_scriptType == kScriptTypeLua){
+        ScriptEngineManager::sendNodeEventToLua(this, kNodeOnDestroy);
+    }
     if (_updateScriptHandler)
     {
         ScriptEngineManager::getInstance()->getScriptEngine()->removeScriptHandler(_updateScriptHandler);
@@ -161,7 +169,7 @@ Node::~Node()
 #endif
 
     // User object has to be released before others, since userObject may have a weak reference of this node
-    // It may invoke `node->stopAllActions();` while `_actionManager` is null if the next line is after `CC_SAFE_RELEASE_NULL(_actionManager)`.
+    // It may invoke `node->stopAllAction();` while `_actionManager` is null if the next line is after `CC_SAFE_RELEASE_NULL(_actionManager)`.
     CC_SAFE_RELEASE_NULL(_userObject);
     
     // attributes
@@ -175,6 +183,7 @@ Node::~Node()
     removeAllComponents();
     
     CC_SAFE_DELETE(_componentContainer);
+    CC_SAFE_DELETE(_componentContainerNoUpdate);
     
     stopAllActions();
     unscheduleAllCallbacks();
@@ -258,7 +267,7 @@ void Node::setSkewY(float skewY)
     _transformUpdated = _transformDirty = _inverseDirty = true;
 }
 
-void Node::setLocalZOrder(std::int32_t z)
+void Node::setLocalZOrder(int z)
 {
     if (getLocalZOrder() == z)
         return;
@@ -272,16 +281,59 @@ void Node::setLocalZOrder(std::int32_t z)
     _eventDispatcher->setDirtyForNode(this);
 }
 
-/// zOrder setter : private method
-/// used internally to alter the zOrder variable. DON'T call this method manually
-void Node::_setLocalZOrder(std::int32_t z)
-{
-    _localZOrder = z;
+
+//! supply change draw order with same zorder, if nullptr must be last draw
+bool Node::changeDrawOrderWithNode(Node* pFriendNode, bool bAfter){
+    if(!_parent)
+        return false;
+    _eventDispatcher->setDirtyForNode(this);
+    return _parent->changeChildDrawOrder(this, pFriendNode, bAfter);
 }
 
-void Node::updateOrderOfArrival()
+bool Node::changeChildDrawOrder(Node* pNode, Node* pFriendNode, bool bAfter){
+    bool bRet = false;
+    auto iter = _children.find(pNode);
+    if(iter == _children.end()){
+        return bRet;
+    }
+    if(pFriendNode){
+        if(pNode->getLocalZOrder() != pFriendNode->getLocalZOrder())
+            return bRet;
+        pNode->retain();
+        _children.erase(iter);
+        auto iterFirend = _children.find(pFriendNode);
+        if(iterFirend != _children.end()){
+            if(!bAfter)
+                _children.insert(iterFirend - _children.begin(), pNode);
+            else{
+                if(iterFirend + 1 != _children.end())
+                    _children.insert(iterFirend + 1 - _children.begin(), pNode);
+                else
+                    _children.pushBack(pNode);
+            }
+            bRet = true;
+        }
+        pNode->release();
+        return bRet;
+    }
+    pNode->retain();
+    _children.erase(iter);
+    if(bAfter){
+        _children.pushBack(pNode);
+    }
+    else{
+        _children.insert(0, pNode);
+    }
+    _reorderChildDirty = true;
+    pNode->release();
+    return bRet;
+}
+
+/// zOrder setter : private method
+/// used internally to alter the zOrder variable. DON'T call this method manually
+void Node::_setLocalZOrder(int z)
 {
-    _orderOfArrival = (++s_globalOrderOfArrival);
+    _localZOrder = z;
 }
 
 void Node::setGlobalZOrder(float globalZOrder)
@@ -296,7 +348,7 @@ void Node::setGlobalZOrder(float globalZOrder)
 /// rotation getter
 float Node::getRotation() const
 {
-    CCASSERT(_rotationZ_X == _rotationZ_Y, "CCNode#rotation. RotationX != RotationY. Don't know which one to return");
+    //CCASSERT(_rotationZ_X == _rotationZ_Y, "CCNode#rotation. RotationX != RotationY. Don't know which one to return");
     return _rotationZ_X;
 }
 
@@ -975,7 +1027,7 @@ void Node::addChildHelper(Node* child, int localZOrder, int tag, const std::stri
     
     child->setParent(this);
 
-    child->updateOrderOfArrival();
+    //child->updateOrderOfArrival();
 
     if( _running )
     {
@@ -1161,7 +1213,7 @@ void Node::reorderChild(Node *child, int zOrder)
 {
     CCASSERT( child != nullptr, "Child must be non-nil");
     _reorderChildDirty = true;
-    child->updateOrderOfArrival();
+    //child->updateOrderOfArrival();
     child->_setLocalZOrder(zOrder);
 }
 
@@ -1316,6 +1368,9 @@ void Node::onEnter()
     {
         _componentContainer->onEnter();
     }
+    if(_componentContainerNoUpdate && !_componentContainerNoUpdate->isEmpty()){
+        _componentContainerNoUpdate->onEnter();
+    }
     
     _isTransitionFinished = false;
     
@@ -1403,6 +1458,9 @@ void Node::onExit()
     if (_componentContainer && !_componentContainer->isEmpty())
     {
         _componentContainer->onExit();
+    }
+    if(_componentContainerNoUpdate && !_componentContainerNoUpdate->isEmpty()){
+        _componentContainerNoUpdate->onExit();
     }
     
     this->pause();
@@ -1816,7 +1874,7 @@ void Node::setAdditionalTransform(const Mat4* additionalTransform)
 {
     if (additionalTransform == nullptr)
     {
-        if(_additionalTransform)  _transform = _additionalTransform[1];
+		if(_additionalTransform)  _transform = _additionalTransform[1];
         delete[] _additionalTransform;
         _additionalTransform = nullptr;
     }
@@ -1939,10 +1997,12 @@ void Node::updateTransform()
 
 Component* Node::getComponent(const std::string& name)
 {
-    if (_componentContainer)
-        return _componentContainer->get(name);
-    
-    return nullptr;
+    Component* pRet = nullptr;
+    if(_componentContainer)
+        pRet = _componentContainer->get(name);
+    if(nullptr == pRet && _componentContainerNoUpdate)
+        pRet = _componentContainerNoUpdate->get(name);
+    return pRet;
 }
 
 bool Node::addComponent(Component *component)
@@ -1957,28 +2017,41 @@ bool Node::addComponent(Component *component)
     return _componentContainer->add(component);
 }
 
+bool Node::addComponentNoUpdate(Component *component){
+    // lazy alloc
+    if(!_componentContainerNoUpdate)
+        _componentContainerNoUpdate = new (std::nothrow) ComponentContainer(this);
+
+    return _componentContainerNoUpdate->add(component);
+}
+
 bool Node::removeComponent(const std::string& name)
 {
-    if (_componentContainer)
-        return _componentContainer->remove(name);
-    
-    return false;
+    bool bRet = false;
+    if(_componentContainer)
+        bRet = _componentContainer->remove(name);
+    if(!bRet && _componentContainerNoUpdate)
+        bRet = _componentContainerNoUpdate->remove(name);
+    return bRet;
 }
 
 bool Node::removeComponent(Component *component)
 {
-    if (_componentContainer)
-    {
-        return _componentContainer->remove(component);
+    bool bRet = false;
+    if(_componentContainer){
+        bRet = _componentContainer->remove(component);
     }
-    
-    return false;
+    if(!bRet && _componentContainerNoUpdate)
+        bRet = _componentContainerNoUpdate->remove(component);
+    return bRet;
 }
 
 void Node::removeAllComponents()
 {
     if (_componentContainer)
         _componentContainer->removeAll();
+    if(_componentContainerNoUpdate)
+        _componentContainerNoUpdate->removeAll();
 }
 
 // MARK: Opacity and Color
@@ -2207,7 +2280,6 @@ int Node::getAttachedNodeCount()
 {
     return __attachedNodeCount;
 }
-
 // MARK: Deprecated
 
 __NodeRGBA::__NodeRGBA()

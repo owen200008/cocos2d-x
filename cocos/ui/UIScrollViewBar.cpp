@@ -38,7 +38,7 @@ static const char* HALF_CIRCLE_IMAGE_KEY = "/__halfCircleImage";
 static const char* BODY_IMAGE_1_PIXEL_HEIGHT_KEY = "/__bodyImage";
 
 static const Color3B DEFAULT_COLOR(52, 65, 87);
-static const float DEFAULT_MARGIN = 20;
+static const float DEFAULT_MARGIN = 6;
 static const float DEFAULT_AUTO_HIDE_TIME = 0.2f;
 static const float DEFAULT_SCROLLBAR_OPACITY = 0.4f;
 

@@ -895,9 +895,9 @@ void PhysicsWorld::update(float delta, bool userCall/* = false*/)
     if (userCall)
     {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WINRT || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-		cpSpaceStep(_cpSpace, delta);
+		cpSpaceStep(_cpSpace, delta * _speed);
 #else
-		cpHastySpaceStep(_cpSpace, delta);
+		cpHastySpaceStep(_cpSpace, delta * _speed);
 #endif
     }
     else

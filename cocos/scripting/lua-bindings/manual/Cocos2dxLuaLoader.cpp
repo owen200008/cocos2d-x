@@ -76,7 +76,9 @@ extern "C"
             std::string prefix = searchpath.substr(begin, next-begin);
             if (prefix[0] == '.' && prefix[1] == '/')
                 prefix = prefix.substr(2);
-
+			else if(prefix[0] == '.' && prefix[1] == '\\'){
+				prefix = prefix.substr(2);
+			}
             pos = prefix.rfind(BYTECODE_FILE_EXT);
             if (pos != std::string::npos && pos == prefix.length() - BYTECODE_FILE_EXT.length())
             {

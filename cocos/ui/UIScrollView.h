@@ -602,6 +602,10 @@ public:
 	 */
 	bool isAutoScrolling() const { return _autoScrolling; }
 
+	/**
+    *   fix the inner pos or go with insert or del
+    */
+    void SetFixInnerPosition(bool bFix){ m_bFixInnerPosition = bFix; }
 CC_CONSTRUCTOR_ACCESS:
     virtual bool init() override;
 
@@ -689,6 +693,7 @@ protected:
 	
 	bool _scrolling;
     
+	bool m_bFixInnerPosition;
     bool _autoScrolling;
     bool _autoScrollAttenuate;
     Vec2 _autoScrollStartPosition;
