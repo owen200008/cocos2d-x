@@ -3,7 +3,7 @@ g_Director = cc.Director:getInstance()
 --保存文件操作句柄
 g_FileUtils = cc.FileUtils:getInstance()
 --资源缓存句柄
-g_SpriteFrameCache = SpriteFrameCache_XiaKe:getInstanceXiaKe()
+g_SpriteFrameCache = xiake.SpriteFrameCache_XiaKe:getInstanceXiaKe()
 --资源目录
 g_resourcePath = ProjectLua.GetProjectResourcePath()
 --执行目录
@@ -84,7 +84,6 @@ local function main()
     LuaDataPool:InitLuaDataPool()
     cc.exports.GlobalAppBaseRetain=require("app.MyApp"):create()
     cc.exports.GlobalWinSizeRetain=g_Director:getWinSize()
-    LuaDataPool:SetCppVersion(ProjectLua.GetProjectVersionCpp())
     if g_firstLoadView then
       GlobalAppBaseRetain:run(g_firstLoadView)
       g_firstLoadView = nil
