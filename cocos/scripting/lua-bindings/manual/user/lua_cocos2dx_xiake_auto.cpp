@@ -2926,8 +2926,6 @@ int lua_register_cocos2dx_xiake_AnimatePacker3(lua_State* tolua_S){
     return 1;
 }
 
-
-
 int lua_register_cocos2dx_xiake_SpriteFrameCache_XiaKe(lua_State* tolua_S){
     tolua_usertype(tolua_S, "SpriteFrameCache_XiaKe");
     tolua_cclass(tolua_S, "SpriteFrameCache_XiaKe", "SpriteFrameCache_XiaKe", "cc.SpriteFrameCache", nullptr);
@@ -2987,100 +2985,6 @@ int lua_register_cocos2dx_xiake_SpriteFrameCache_XiaKe(lua_State* tolua_S){
     std::string typeName = typeid(cocos2d::SpriteFrameCache_XiaKe).name();
     g_luaType[typeName] = "SpriteFrameCache_XiaKe";
     g_typeCast["SpriteFrameCache_XiaKe"] = "SpriteFrameCache_XiaKe";
-    return 1;
-
-    tolua_usertype(tolua_S, "AnimatePacker3");
-    tolua_cclass(tolua_S, "AnimatePacker3", "AnimatePacker3", "", nullptr);
-
-    tolua_beginmodule(tolua_S, "AnimatePacker3");
-    tolua_function(tolua_S, "loadAnimations", [](lua_State* tolua_S)->int{
-        int argc = 0;
-        AnimatePacker3* cobj = nullptr;
-        bool ok = true;
-
-#if COCOS2D_DEBUG >= 1
-        tolua_Error tolua_err;
-
-        if(!tolua_isusertype(tolua_S, 1, "AnimatePacker3", 0, &tolua_err)) goto tolua_lerror;
-#endif
-
-        cobj = (AnimatePacker3*)tolua_tousertype(tolua_S, 1, 0);
-
-#if COCOS2D_DEBUG >= 1
-        if(!cobj){
-            tolua_error(tolua_S, "invalid 'cobj' in function 'loadAnimations'", nullptr);
-            return 0;
-        }
-#endif
-
-        argc = lua_gettop(tolua_S) - 1;
-        if(argc == 1){
-            const char* arg0;
-
-            std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp, "AnimatePacker3:loadAnimations"); arg0 = arg0_tmp.c_str();
-            if(!ok){
-                tolua_error(tolua_S, "invalid arguments in function 'loadAnimations'", nullptr);
-                return 0;
-            }
-            cobj->loadAnimations(arg0);
-            lua_settop(tolua_S, 1);
-            return 1;
-        }
-        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "loadAnimations", argc, 0);
-        return 0;
-
-#if COCOS2D_DEBUG >= 1
-        tolua_lerror:
-                    tolua_error(tolua_S, "#ferror in function 'loadAnimations'.", &tolua_err);
-#endif
-                    return 0;
-    });
-    tolua_function(tolua_S, "getAnimate", [](lua_State* tolua_S)->int{
-        int argc = 0;
-        AnimatePacker3* cobj = nullptr;
-        bool ok = true;
-
-#if COCOS2D_DEBUG >= 1
-        tolua_Error tolua_err;
-
-        if(!tolua_isusertype(tolua_S, 1, "AnimatePacker3", 0, &tolua_err)) goto tolua_lerror;
-#endif
-
-        cobj = (AnimatePacker3*)tolua_tousertype(tolua_S, 1, 0);
-
-#if COCOS2D_DEBUG >= 1
-        if(!cobj){
-            tolua_error(tolua_S, "invalid 'cobj' in function 'getAnimate'", nullptr);
-            return 0;
-        }
-#endif
-
-        argc = lua_gettop(tolua_S) - 1;
-        if(argc == 1){
-            const char* arg0;
-
-            std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp, "AnimatePacker3:getAnimate"); arg0 = arg0_tmp.c_str();
-            if(!ok){
-                tolua_error(tolua_S, "invalid arguments in function 'getAnimate'", nullptr);
-                return 0;
-            }
-            cocos2d::Animate* pRet = cobj->getAnimate(arg0);
-            object_to_luaval<cocos2d::Animate>(tolua_S, "cc.Animate", pRet);
-            return 1;
-        }
-        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "getAnimate", argc, 0);
-        return 0;
-
-#if COCOS2D_DEBUG >= 1
-        tolua_lerror:
-                    tolua_error(tolua_S, "#ferror in function 'getAnimate'.", &tolua_err);
-#endif
-                    return 0;
-    });
-    tolua_endmodule(tolua_S);
-    std::string typeName = typeid(AnimatePacker3).name();
-    g_luaType[typeName] = "AnimatePacker3";
-    g_typeCast["AnimatePacker3"] = "AnimatePacker3";
     return 1;
 }
 
