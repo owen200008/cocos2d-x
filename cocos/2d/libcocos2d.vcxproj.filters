@@ -2006,34 +2006,34 @@
     <ClCompile Include="..\base\CCController-linux-win32.cpp" />
     <ClCompile Include="..\base\CCEventController.cpp" />
     <ClCompile Include="..\base\CCEventListenerController.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSLoader_XiaKe.cpp">
+    <ClCompile Include="..\user\CSLoader_XiaKe.cpp">
       <Filter>user</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CCSpriteFrameCache_XiaKe.cpp">
+    <ClCompile Include="..\user\CCSpriteFrameCache_XiaKe.cpp">
       <Filter>user</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSTMXMap_XiaKe.cpp">
+    <ClCompile Include="..\user\CSTMXMap_XiaKe.cpp">
       <Filter>user</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\AnimatePacker3.cpp">
+    <ClCompile Include="..\user\AnimatePacker3.cpp">
       <Filter>user</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosrichtext.cpp">
+    <ClCompile Include="..\user\cocosrichtext.cpp">
       <Filter>user</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosnodenorelease.cpp">
+    <ClCompile Include="..\user\cocosnodenorelease.cpp">
       <Filter>user</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\CLikeWidget.cpp">
+    <ClCompile Include="..\user\CLikeWidget.cpp">
       <Filter>user</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosrichtextReader.cpp">
+    <ClCompile Include="..\user\cocosrichtextReader.cpp">
       <Filter>user</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\dylistview.cpp">
+    <ClCompile Include="..\user\dylistview.cpp">
       <Filter>user</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\user\dylistviewReader.cpp">
+    <ClCompile Include="..\user\dylistviewReader.cpp">
       <Filter>user</Filter>
     </ClCompile>
   </ItemGroup>
@@ -3947,43 +3947,43 @@
     <ClInclude Include="..\base\CCController.h" />
     <ClInclude Include="..\base\CCEventController.h" />
     <ClInclude Include="..\base\CCEventListenerController.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CCSpriteFrameCache_XiaKe.h">
+    <ClInclude Include="..\user\CCSpriteFrameCache_XiaKe.h">
       <Filter>user</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSLoader_XiaKe.h">
+    <ClInclude Include="..\user\CSLoader_XiaKe.h">
       <Filter>user</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\CSTMXMap_XiaKe.h">
+    <ClInclude Include="..\user\CSTMXMap_XiaKe.h">
       <Filter>user</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\github\cocos2d-x\cocos\user\AnimatePacker3.h">
+    <ClInclude Include="..\user\AnimatePacker3.h">
       <Filter>user</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosreader\publiccocosreader.h">
+    <ClInclude Include="..\user\cocosreader\publiccocosreader.h">
       <Filter>user\cocosreader</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosrichtext.h">
+    <ClInclude Include="..\user\cocosrichtext.h">
       <Filter>user</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosnodenorelease.h">
+    <ClInclude Include="..\user\cocosnodenorelease.h">
       <Filter>user</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\CLikeWidget.h">
+    <ClInclude Include="..\user\CLikeWidget.h">
       <Filter>user</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosrichtextReader.h">
+    <ClInclude Include="..\user\cocosrichtextReader.h">
       <Filter>user</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\cocosrichtextOptions_generated.h">
+    <ClInclude Include="..\user\cocosrichtextOptions_generated.h">
       <Filter>user</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\dylistview.h">
+    <ClInclude Include="..\user\dylistview.h">
       <Filter>user</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\dylistviewReader.h">
+    <ClInclude Include="..\user\dylistviewReader.h">
       <Filter>user</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\user\dylistviewOptions_generated.h">
+    <ClInclude Include="..\user\dylistviewOptions_generated.h">
       <Filter>user</Filter>
     </ClInclude>
   </ItemGroup>

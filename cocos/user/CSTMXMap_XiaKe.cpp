@@ -162,3 +162,22 @@ void CMapTMXCache::OnTimer(int nTick){
     m_vtRetainChild.clear();
     std::swap(m_vtRetainChild, m_vtNewAddRetainChild);
 }
+
+//! 设置node显示状态
+void CMapTMXCache::SetNodeNormalState(cocos2d::Node* pNode, bool bNormal){
+    cocos2d::GLProgramState *glState = nullptr;
+    if(bNormal)
+        glState = cocos2d::GLProgramState::getOrCreateWithGLProgramName(cocos2d::GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP);
+    else
+        glState = cocos2d::GLProgramState::getOrCreateWithGLProgramName(cocos2d::GLProgram::SHADER_NAME_POSITION_GRAYSCALE);
+    pNode->setGLProgramState(glState);
+}
+bool CMapTMXCache::IsNodeNormalState(cocos2d::Node* pNode){
+    return pNode->getGLProgramState() == cocos2d::GLProgramState::getOrCreateWithGLProgramName(cocos2d::GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP);
+}
+
+//! 提供快速增加设置大小
+void CMapTMXCache::AddContentWidthHeight(cocos2d::Node* pNode, float fAddWidth, float fAddHeight){
+    const cocos2d::Size& sContentSize = pNode->getContentSize();
+    pNode->setContentSize(cocos2d::Size(sContentSize.width + fAddWidth, sContentSize.height + fAddHeight));
+}

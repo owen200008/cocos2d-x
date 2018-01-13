@@ -1,8 +1,11 @@
 #include "lua_cocos2dx_xiake_auto.hpp"
 #include "user/dylistview.h"
 #include "user/cocosrichtext.h"
-//#include "comm/globalfuncdef.h"
+#include "user/AnimatePacker3.h"
 #include "user/cocosnodenorelease.h"
+#include "user/CCSpriteFrameCache_XiaKe.h"
+#include "user/CLikeWidget.h"
+#include "user/CSTMXMap_XiaKe.h"
 #include "scripting/lua-bindings/manual/tolua_fix.h"
 #include "scripting/lua-bindings/manual/LuaBasicConversions.h"
 #include "scripting/lua-bindings/manual/CCLuaValue.h"
@@ -2735,606 +2738,6 @@ int lua_register_cocos2dx_xiake_CCocosRichTextNodeForCocos(lua_State* tolua_S)
     return 1;
 }
 
-/*
-int lua_cocos2dx_xiake_CLuaGlobalFunc_DoLayoutForPageView(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"CLuaGlobalFunc",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 1)
-    {
-        cocos2d::ui::PageView* arg0;
-        ok &= luaval_to_object<cocos2d::ui::PageView>(tolua_S, 2, "ccui.PageView",&arg0, "CLuaGlobalFunc:DoLayoutForPageView");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_DoLayoutForPageView'", nullptr);
-            return 0;
-        }
-        CLuaGlobalFunc::DoLayoutForPageView(arg0);
-        lua_settop(tolua_S, 1);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:DoLayoutForPageView",argc, 1);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_DoLayoutForPageView'.",&tolua_err);
-#endif
-    return 0;
-}
-int lua_cocos2dx_xiake_CLuaGlobalFunc_IsNodeNormalState(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"CLuaGlobalFunc",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 1)
-    {
-        cocos2d::Node* arg0;
-        ok &= luaval_to_object<cocos2d::Node>(tolua_S, 2, "cc.Node",&arg0, "CLuaGlobalFunc:IsNodeNormalState");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_IsNodeNormalState'", nullptr);
-            return 0;
-        }
-        bool ret = CLuaGlobalFunc::IsNodeNormalState(arg0);
-        tolua_pushboolean(tolua_S,(bool)ret);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:IsNodeNormalState",argc, 1);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_IsNodeNormalState'.",&tolua_err);
-#endif
-    return 0;
-}
-int lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsListView(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"CLuaGlobalFunc",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 1)
-    {
-        cocos2d::ui::ListView* arg0;
-        ok &= luaval_to_object<cocos2d::ui::ListView>(tolua_S, 2, "ccui.ListView",&arg0, "CLuaGlobalFunc:AddClearNodeChildsListView");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsListView'", nullptr);
-            return 0;
-        }
-        CLuaGlobalFunc::AddClearNodeChildsListView(arg0);
-        lua_settop(tolua_S, 1);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:AddClearNodeChildsListView",argc, 1);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsListView'.",&tolua_err);
-#endif
-    return 0;
-}
-
-int lua_cocos2dx_xiake_CLuaGlobalFunc_AddNoUpdateCompent(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"CLuaGlobalFunc",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 2)
-    {
-        cocos2d::Node* arg0;
-        cocos2d::Component* arg1;
-        ok &= luaval_to_object<cocos2d::Node>(tolua_S, 2, "cc.Node",&arg0, "CLuaGlobalFunc:AddNoUpdateCompent");
-        ok &= luaval_to_object<cocos2d::Component>(tolua_S, 3, "cc.Component",&arg1, "CLuaGlobalFunc:AddNoUpdateCompent");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddNoUpdateCompent'", nullptr);
-            return 0;
-        }
-        CLuaGlobalFunc::AddNoUpdateCompent(arg0, arg1);
-        lua_settop(tolua_S, 1);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:AddNoUpdateCompent",argc, 2);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddNoUpdateCompent'.",&tolua_err);
-#endif
-    return 0;
-}
-
-int lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChilds(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"CLuaGlobalFunc",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 1)
-    {
-        cocos2d::Node* arg0;
-        ok &= luaval_to_object<cocos2d::Node>(tolua_S, 2, "cc.Node",&arg0, "CLuaGlobalFunc:AddClearNodeChilds");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChilds'", nullptr);
-            return 0;
-        }
-        CLuaGlobalFunc::AddClearNodeChilds(arg0);
-        lua_settop(tolua_S, 1);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:AddClearNodeChilds",argc, 1);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChilds'.",&tolua_err);
-#endif
-    return 0;
-}
-int lua_cocos2dx_xiake_CLuaGlobalFunc_IsUTF8Str(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"CLuaGlobalFunc",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 2)
-    {
-        const char* arg0;
-        int arg1;
-        std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp, "CLuaGlobalFunc:IsUTF8Str"); arg0 = arg0_tmp.c_str();
-        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "CLuaGlobalFunc:IsUTF8Str");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_IsUTF8Str'", nullptr);
-            return 0;
-        }
-        bool ret = CLuaGlobalFunc::IsUTF8Str(arg0, arg1);
-        tolua_pushboolean(tolua_S,(bool)ret);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:IsUTF8Str",argc, 2);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_IsUTF8Str'.",&tolua_err);
-#endif
-    return 0;
-}
-
-int lua_cocos2dx_xiake_CLuaGlobalFunc_GetNodeRevertValue(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"CLuaGlobalFunc",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 2)
-    {
-        cocos2d::Node* arg0;
-        int arg1;
-        ok &= luaval_to_object<cocos2d::Node>(tolua_S, 2, "cc.Node",&arg0, "CLuaGlobalFunc:GetNodeRevertValue");
-        ok &= luaval_to_int32(tolua_S, 3,(int *)&arg1, "CLuaGlobalFunc:GetNodeRevertValue");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_GetNodeRevertValue'", nullptr);
-            return 0;
-        }
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:GetNodeRevertValue",argc, 2);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_GetNodeRevertValue'.",&tolua_err);
-#endif
-    return 0;
-}
-int lua_cocos2dx_xiake_CLuaGlobalFunc_SetNodeNormalState(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"CLuaGlobalFunc",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 2)
-    {
-        cocos2d::Node* arg0;
-        bool arg1;
-        ok &= luaval_to_object<cocos2d::Node>(tolua_S, 2, "cc.Node",&arg0, "CLuaGlobalFunc:SetNodeNormalState");
-        ok &= luaval_to_boolean(tolua_S, 3,&arg1, "CLuaGlobalFunc:SetNodeNormalState");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_SetNodeNormalState'", nullptr);
-            return 0;
-        }
-        CLuaGlobalFunc::SetNodeNormalState(arg0, arg1);
-        lua_settop(tolua_S, 1);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:SetNodeNormalState",argc, 2);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_SetNodeNormalState'.",&tolua_err);
-#endif
-    return 0;
-}
-
-int lua_cocos2dx_xiake_CLuaGlobalFunc_OnTimerGlobal(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"CLuaGlobalFunc",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 0)
-    {
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_OnTimerGlobal'", nullptr);
-            return 0;
-        }
-        CLuaGlobalFunc::OnTimerGlobal();
-        lua_settop(tolua_S, 1);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:OnTimerGlobal",argc, 0);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_OnTimerGlobal'.",&tolua_err);
-#endif
-    return 0;
-}
-int lua_cocos2dx_xiake_CLuaGlobalFunc_FillNodeRichText(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"CLuaGlobalFunc",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 7)
-    {
-        cocos2d::Node* arg0;
-        const char* arg1;
-        const char* arg2;
-        int arg3;
-        const char* arg4;
-        cocos2d::TextHAlignment arg5;
-        bool arg6;
-        ok &= luaval_to_object<cocos2d::Node>(tolua_S, 2, "cc.Node",&arg0, "CLuaGlobalFunc:FillNodeRichText");
-        std::string arg1_tmp; ok &= luaval_to_std_string(tolua_S, 3, &arg1_tmp, "CLuaGlobalFunc:FillNodeRichText"); arg1 = arg1_tmp.c_str();
-        std::string arg2_tmp; ok &= luaval_to_std_string(tolua_S, 4, &arg2_tmp, "CLuaGlobalFunc:FillNodeRichText"); arg2 = arg2_tmp.c_str();
-        ok &= luaval_to_int32(tolua_S, 5,(int *)&arg3, "CLuaGlobalFunc:FillNodeRichText");
-        std::string arg4_tmp; ok &= luaval_to_std_string(tolua_S, 6, &arg4_tmp, "CLuaGlobalFunc:FillNodeRichText"); arg4 = arg4_tmp.c_str();
-        ok &= luaval_to_int32(tolua_S, 7,(int *)&arg5, "CLuaGlobalFunc:FillNodeRichText");
-        ok &= luaval_to_boolean(tolua_S, 8,&arg6, "CLuaGlobalFunc:FillNodeRichText");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_FillNodeRichText'", nullptr);
-            return 0;
-        }
-        CCocosRichTextNodeForCocos* ret = CLuaGlobalFunc::FillNodeRichText(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-        object_to_luaval<CCocosRichTextNodeForCocos>(tolua_S, "CCocosRichTextNodeForCocos",(CCocosRichTextNodeForCocos*)ret);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:FillNodeRichText",argc, 7);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_FillNodeRichText'.",&tolua_err);
-#endif
-    return 0;
-}
-int lua_cocos2dx_xiake_CLuaGlobalFunc_AttachWithIME(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"CLuaGlobalFunc",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 1)
-    {
-        cocos2d::Node* arg0;
-        ok &= luaval_to_object<cocos2d::Node>(tolua_S, 2, "cc.Node",&arg0, "CLuaGlobalFunc:AttachWithIME");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AttachWithIME'", nullptr);
-            return 0;
-        }
-        CLuaGlobalFunc::AttachWithIME(arg0);
-        lua_settop(tolua_S, 1);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:AttachWithIME",argc, 1);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AttachWithIME'.",&tolua_err);
-#endif
-    return 0;
-}
-int lua_cocos2dx_xiake_CLuaGlobalFunc_GetCustomEventRefUserData(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"CLuaGlobalFunc",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 1)
-    {
-        cocos2d::EventCustom* arg0;
-        ok &= luaval_to_object<cocos2d::EventCustom>(tolua_S, 2, "cc.EventCustom",&arg0, "CLuaGlobalFunc:GetCustomEventRefUserData");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_GetCustomEventRefUserData'", nullptr);
-            return 0;
-        }
-        cocos2d::Ref* ret = CLuaGlobalFunc::GetCustomEventRefUserData(arg0);
-        object_to_luaval<cocos2d::Ref>(tolua_S, "cc.Ref",(cocos2d::Ref*)ret);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:GetCustomEventRefUserData",argc, 1);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_GetCustomEventRefUserData'.",&tolua_err);
-#endif
-    return 0;
-}
-
-int lua_cocos2dx_xiake_CLuaGlobalFunc_LoadMap(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"CLuaGlobalFunc",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 2)
-    {
-        const char* arg0;
-        const char* arg1;
-        std::string arg1_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg1_tmp, "CLuaGlobalFunc:LoadMap"); arg0 = arg1_tmp.c_str();
-        std::string arg2_tmp; ok &= luaval_to_std_string(tolua_S, 3, &arg2_tmp, "CLuaGlobalFunc:LoadMap"); arg1 = arg2_tmp.c_str();
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_LoadMap'", nullptr);
-            return 0;
-        }
-        cocos2d::experimental::TMXTiledMap* ret = CLuaGlobalFunc::LoadMap(arg0, arg1);
-        object_to_luaval<cocos2d::experimental::TMXTiledMap>(tolua_S, "ccexp.TMXTiledMap",(cocos2d::experimental::TMXTiledMap*)ret);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:LoadMap",argc, 2);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_LoadMap'.",&tolua_err);
-#endif
-    return 0;
-}
-
-int lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNode(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"CLuaGlobalFunc",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 1)
-    {
-        cocos2d::Node* arg0;
-        ok &= luaval_to_object<cocos2d::Node>(tolua_S, 2, "cc.Node",&arg0, "CLuaGlobalFunc:AddClearNode");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNode'", nullptr);
-            return 0;
-        }
-        CLuaGlobalFunc::AddClearNode(arg0);
-        lua_settop(tolua_S, 1);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:AddClearNode",argc, 1);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNode'.",&tolua_err);
-#endif
-    return 0;
-}
-int lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsPageView(lua_State* tolua_S)
-{
-    int argc = 0;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"CLuaGlobalFunc",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    argc = lua_gettop(tolua_S) - 1;
-
-    if (argc == 1)
-    {
-        cocos2d::ui::PageView* arg0;
-        ok &= luaval_to_object<cocos2d::ui::PageView>(tolua_S, 2, "ccui.PageView",&arg0, "CLuaGlobalFunc:AddClearNodeChildsPageView");
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsPageView'", nullptr);
-            return 0;
-        }
-        CLuaGlobalFunc::AddClearNodeChildsPageView(arg0);
-        lua_settop(tolua_S, 1);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:AddClearNodeChildsPageView",argc, 1);
-    return 0;
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsPageView'.",&tolua_err);
-#endif
-    return 0;
-}
-static int lua_cocos2dx_xiake_CLuaGlobalFunc_finalize(lua_State* tolua_S)
-{
-    printf("luabindings: finalizing LUA object (CLuaGlobalFunc)");
-    return 0;
-}
-
-int lua_register_cocos2dx_xiake_CLuaGlobalFunc(lua_State* tolua_S)
-{
-    tolua_usertype(tolua_S,"CLuaGlobalFunc");
-    tolua_cclass(tolua_S,"CLuaGlobalFunc","CLuaGlobalFunc","",nullptr);
-
-    tolua_beginmodule(tolua_S,"CLuaGlobalFunc");
-        tolua_function(tolua_S,"DoLayoutForPageView", lua_cocos2dx_xiake_CLuaGlobalFunc_DoLayoutForPageView);
-        tolua_function(tolua_S,"IsNodeNormalState", lua_cocos2dx_xiake_CLuaGlobalFunc_IsNodeNormalState);
-        tolua_function(tolua_S,"AddClearNodeChildsListView", lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsListView);
-        tolua_function(tolua_S,"AddNoUpdateCompent", lua_cocos2dx_xiake_CLuaGlobalFunc_AddNoUpdateCompent);
-        tolua_function(tolua_S,"AddClearNodeChilds", lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChilds);
-        tolua_function(tolua_S,"IsUTF8Str", lua_cocos2dx_xiake_CLuaGlobalFunc_IsUTF8Str);
-        tolua_function(tolua_S,"GetNodeRevertValue", lua_cocos2dx_xiake_CLuaGlobalFunc_GetNodeRevertValue);
-        tolua_function(tolua_S,"SetNodeNormalState", lua_cocos2dx_xiake_CLuaGlobalFunc_SetNodeNormalState);
-        tolua_function(tolua_S,"OnTimerGlobal", lua_cocos2dx_xiake_CLuaGlobalFunc_OnTimerGlobal);
-        tolua_function(tolua_S,"FillNodeRichText", lua_cocos2dx_xiake_CLuaGlobalFunc_FillNodeRichText);
-        tolua_function(tolua_S,"AttachWithIME", lua_cocos2dx_xiake_CLuaGlobalFunc_AttachWithIME);
-        tolua_function(tolua_S,"GetCustomEventRefUserData", lua_cocos2dx_xiake_CLuaGlobalFunc_GetCustomEventRefUserData);
-        tolua_function(tolua_S,"LoadMap", lua_cocos2dx_xiake_CLuaGlobalFunc_LoadMap);
-        tolua_function(tolua_S,"AddClearNode", lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNode);
-        tolua_function(tolua_S,"AddClearNodeChildsPageView", lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsPageView);
-        tolua_function(tolua_S,"AddClearNodeChildsPageView", lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsPageView);
-    tolua_endmodule(tolua_S);
-    std::string typeName = typeid(CLuaGlobalFunc).name();
-    g_luaType[typeName] = "CLuaGlobalFunc";
-    g_typeCast["CLuaGlobalFunc"] = "CLuaGlobalFunc";
-    return 1;
-}*/
-
 int lua_cocos2dx_xiake_CNodeNoRelease_create(lua_State* tolua_S)
 {
     int argc = 0;
@@ -3422,6 +2825,841 @@ int lua_register_cocos2dx_xiake_CNodeNoRelease(lua_State* tolua_S){
 }
 
 
+int lua_register_cocos2dx_xiake_AnimatePacker3(lua_State* tolua_S){
+    tolua_usertype(tolua_S, "AnimatePacker3");
+    tolua_cclass(tolua_S, "AnimatePacker3", "AnimatePacker3", "", nullptr);
+
+    tolua_beginmodule(tolua_S, "AnimatePacker3");
+    tolua_function(tolua_S, "GetInstance", [](lua_State* tolua_S)->int{
+        AnimatePacker3* cobj = AnimatePacker3::GetInstance();
+        object_to_luaval<AnimatePacker3>(tolua_S, "AnimatePacker3", cobj);
+        return 1;
+    });
+    tolua_function(tolua_S, "loadAnimations", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        AnimatePacker3* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+
+        if(!tolua_isusertype(tolua_S, 1, "AnimatePacker3", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        cobj = (AnimatePacker3*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'loadAnimations'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 1){
+            const char* arg0;
+
+            std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp, "AnimatePacker3:loadAnimations"); arg0 = arg0_tmp.c_str();
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'loadAnimations'", nullptr);
+                return 0;
+            }
+            cobj->loadAnimations(arg0);
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "loadAnimations", argc, 0);
+        return 0;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'loadAnimations'.", &tolua_err);
+#endif
+        return 0;
+    });
+    tolua_function(tolua_S, "getAnimate", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        AnimatePacker3* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+
+        if(!tolua_isusertype(tolua_S, 1, "AnimatePacker3", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        cobj = (AnimatePacker3*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'getAnimate'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 1){
+            const char* arg0;
+
+            std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp, "AnimatePacker3:getAnimate"); arg0 = arg0_tmp.c_str();
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'getAnimate'", nullptr);
+                return 0;
+            }
+            cocos2d::Animate* pRet = cobj->getAnimate(arg0);
+            object_to_luaval<cocos2d::Animate>(tolua_S, "cc.Animate", pRet);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "getAnimate", argc, 0);
+        return 0;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'getAnimate'.", &tolua_err);
+#endif
+        return 0;
+    });
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(AnimatePacker3).name();
+    g_luaType[typeName] = "AnimatePacker3";
+    g_typeCast["AnimatePacker3"] = "AnimatePacker3";
+    return 1;
+}
+
+
+
+int lua_register_cocos2dx_xiake_SpriteFrameCache_XiaKe(lua_State* tolua_S){
+    tolua_usertype(tolua_S, "SpriteFrameCache_XiaKe");
+    tolua_cclass(tolua_S, "SpriteFrameCache_XiaKe", "SpriteFrameCache_XiaKe", "cc.SpriteFrameCache", nullptr);
+
+    tolua_beginmodule(tolua_S, "SpriteFrameCache_XiaKe");
+    tolua_function(tolua_S, "getInstanceXiaKe", [](lua_State* tolua_S)->int{
+        SpriteFrameCache_XiaKe* cobj = SpriteFrameCache_XiaKe::getInstanceXiaKe();
+        object_to_luaval<SpriteFrameCache_XiaKe>(tolua_S, "SpriteFrameCache_XiaKe", cobj);
+        return 1;
+    });
+    tolua_function(tolua_S, "addSpriteFramesWithPlistFile", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        SpriteFrameCache_XiaKe* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+
+        if(!tolua_isusertype(tolua_S, 1, "SpriteFrameCache_XiaKe", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        cobj = (SpriteFrameCache_XiaKe*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'addSpriteFramesWithPlistFile'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 2){
+            std::string arg0;
+            bool arg1;
+
+            ok &= luaval_to_std_string(tolua_S, 2, &arg0, "addSpriteFramesWithPlistFile");
+            ok &= luaval_to_boolean(tolua_S, 3, &arg1, "addSpriteFramesWithPlistFile");
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_TMXObjectGroup_getProperty'", nullptr);
+                return 0;
+            }
+            Texture2D* pRet = cobj->addSpriteFramesWithPlistFile(arg0, arg1);
+            object_to_luaval<cocos2d::Texture2D>(tolua_S, "cc.Texture2D", (cocos2d::Texture2D*)pRet);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "loadAnimations", argc, 0);
+        return 0;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'loadAnimations'.", &tolua_err);
+#endif
+                    return 0;
+    });
+
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(cocos2d::SpriteFrameCache_XiaKe).name();
+    g_luaType[typeName] = "SpriteFrameCache_XiaKe";
+    g_typeCast["SpriteFrameCache_XiaKe"] = "SpriteFrameCache_XiaKe";
+    return 1;
+
+    tolua_usertype(tolua_S, "AnimatePacker3");
+    tolua_cclass(tolua_S, "AnimatePacker3", "AnimatePacker3", "", nullptr);
+
+    tolua_beginmodule(tolua_S, "AnimatePacker3");
+    tolua_function(tolua_S, "loadAnimations", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        AnimatePacker3* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+
+        if(!tolua_isusertype(tolua_S, 1, "AnimatePacker3", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        cobj = (AnimatePacker3*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'loadAnimations'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 1){
+            const char* arg0;
+
+            std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp, "AnimatePacker3:loadAnimations"); arg0 = arg0_tmp.c_str();
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'loadAnimations'", nullptr);
+                return 0;
+            }
+            cobj->loadAnimations(arg0);
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "loadAnimations", argc, 0);
+        return 0;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'loadAnimations'.", &tolua_err);
+#endif
+                    return 0;
+    });
+    tolua_function(tolua_S, "getAnimate", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        AnimatePacker3* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+
+        if(!tolua_isusertype(tolua_S, 1, "AnimatePacker3", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        cobj = (AnimatePacker3*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'getAnimate'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 1){
+            const char* arg0;
+
+            std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp, "AnimatePacker3:getAnimate"); arg0 = arg0_tmp.c_str();
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'getAnimate'", nullptr);
+                return 0;
+            }
+            cocos2d::Animate* pRet = cobj->getAnimate(arg0);
+            object_to_luaval<cocos2d::Animate>(tolua_S, "cc.Animate", pRet);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "getAnimate", argc, 0);
+        return 0;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'getAnimate'.", &tolua_err);
+#endif
+                    return 0;
+    });
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(AnimatePacker3).name();
+    g_luaType[typeName] = "AnimatePacker3";
+    g_typeCast["AnimatePacker3"] = "AnimatePacker3";
+    return 1;
+}
+
+int lua_register_cocos2dx_xiake_CLikeWidget(lua_State* tolua_S){
+    tolua_usertype(tolua_S, "CLikeWidget");
+    tolua_cclass(tolua_S, "CLikeWidget", "CLikeWidget", "ccui.Widget", nullptr);
+
+    tolua_beginmodule(tolua_S, "CLikeWidget");
+    tolua_function(tolua_S, "new", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        CLikeWidget* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+#endif
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 0){
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_xiake_CNodeNoRelease_constructor'", nullptr);
+                return 0;
+            }
+            cobj = new CLikeWidget();
+            cobj->autorelease();
+            int ID = (int)cobj->_ID;
+            int* luaID = &cobj->_luaID;
+            toluafix_pushusertype_ccobject(tolua_S, ID, luaID, (void*)cobj, "CNodeNoRelease");
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "CNodeNoRelease:CNodeNoRelease", argc, 0);
+        return 0;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_error(tolua_S, "#ferror in function 'lua_cocos2dx_xiake_CNodeNoRelease_constructor'.", &tolua_err);
+#endif
+        return 0;
+    });
+    tolua_function(tolua_S, "create", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+        if(!tolua_isusertable(tolua_S, 1, "CNodeNoRelease", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+
+        if(argc == 0){
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_xiake_CNodeNoRelease_create'", nullptr);
+                return 0;
+            }
+            CLikeWidget* ret = CLikeWidget::create();
+            object_to_luaval<CLikeWidget>(tolua_S, "CNodeNoRelease", (CLikeWidget*)ret);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CNodeNoRelease:create", argc, 0);
+        return 0;
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'lua_cocos2dx_xiake_CNodeNoRelease_create'.", &tolua_err);
+#endif
+        return 0;
+    });
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(CLikeWidget).name();
+    g_luaType[typeName] = "CLikeWidget";
+    g_typeCast["CLikeWidget"] = "CLikeWidget";
+    return 1;
+}
+
+
+int lua_register_cocos2dx_xiake_CMapTMXCache(lua_State* tolua_S){
+    tolua_usertype(tolua_S, "CMapTMXCache");
+    tolua_cclass(tolua_S, "CMapTMXCache", "CMapTMXCache", "", nullptr);
+
+    tolua_beginmodule(tolua_S, "CMapTMXCache");
+    tolua_function(tolua_S, "GetInstance", [](lua_State* tolua_S)->int{
+        CMapTMXCache* cobj = CMapTMXCache::GetInstance();
+        object_to_luaval<CMapTMXCache>(tolua_S, "CMapTMXCache", cobj);
+        return 1;
+    });
+    tolua_function(tolua_S, "InitMapTMXCache", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        CMapTMXCache* cobj = nullptr;
+        bool ok = true;
+
+        cobj = (CMapTMXCache*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'InitMapTMXCache'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 1){
+            LUA_FUNCTION handler = toluafix_ref_function(tolua_S, 2, 0);
+            cocos2d::ScriptHandlerMgr::getInstance()->addCustomHandler((void*)cobj, handler);
+
+            cobj->InitMapTMXCache([=](const char* pMapFile, std::string& strResourceset)->bool{
+                bool bRet = false;
+                LuaStack* stack = LuaEngine::getInstance()->getLuaStack();
+                stack->pushString(pMapFile);
+                stack->executeFunction(handler, 1, 2, [&strResourceset, &bRet](lua_State* L, int nNumber){
+                    bRet = lua_toboolean(L, 1);
+                    strResourceset = lua_tostring(L, 2);
+                });
+                stack->clean();
+                return bRet;
+            });
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "loadAnimations", argc, 0);
+        return 0;
+    });
+    tolua_function(tolua_S, "GetTMXMap", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        CMapTMXCache* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+
+        if(!tolua_isusertype(tolua_S, 1, "CMapTMXCache", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        cobj = (CMapTMXCache*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'GetTMXMap'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 1){
+            const char* arg0;
+
+            std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp, "CMapTMXCache:GetTMXMap"); arg0 = arg0_tmp.c_str();
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'GetTMXMap'", nullptr);
+                return 0;
+            }
+            auto pRet = cobj->GetTMXMap(arg0);
+            object_to_luaval<cocos2d::experimental::TMXTiledMap>(tolua_S, "ccexp.TMXTiledMap", pRet);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "getAnimate", argc, 0);
+        return 0;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'getAnimate'.", &tolua_err);
+#endif
+                    return 0;
+    });
+    tolua_function(tolua_S, "GetTexture2DCacheByFiles", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        CMapTMXCache* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+
+        if(!tolua_isusertype(tolua_S, 1, "CMapTMXCache", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        cobj = (CMapTMXCache*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'GetTexture2DCacheByFiles'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 1){
+            const char* arg0;
+            bool arg1;
+
+            std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp, "CMapTMXCache:GetTexture2DCacheByFiles"); arg0 = arg0_tmp.c_str();
+            ok &= luaval_to_boolean(tolua_S, 3, &arg1, "GetTexture2DCacheByFiles");
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'GetTMXMap'", nullptr);
+                return 0;
+            }
+            auto pRet = cobj->GetTexture2DCacheByFiles(arg0, arg1);
+            object_to_luaval<cocos2d::Texture2D>(tolua_S, "cc.Texture2D", (cocos2d::Texture2D*)pRet);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "GetTexture2DCacheByFiles", argc, 0);
+        return 0;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'GetTexture2DCacheByFiles'.", &tolua_err);
+#endif
+                    return 0;
+    });
+    tolua_function(tolua_S, "PreLoadTexture2DCache", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        CMapTMXCache* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+
+        if(!tolua_isusertype(tolua_S, 1, "CMapTMXCache", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        cobj = (CMapTMXCache*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'PreLoadTexture2DCache'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 1){
+            const char* arg0;
+            bool arg1;
+
+            std::string arg0_tmp; ok &= luaval_to_std_string(tolua_S, 2, &arg0_tmp, "CMapTMXCache:PreLoadTexture2DCache"); arg0 = arg0_tmp.c_str();
+            ok &= luaval_to_boolean(tolua_S, 3, &arg1, "PreLoadTexture2DCache");
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'GetTMXMap'", nullptr);
+                return 0;
+            }
+            cobj->PreLoadTexture2DCache(arg0, arg1);
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "GetTexture2DCacheByFiles", argc, 0);
+        return 0;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'GetTexture2DCacheByFiles'.", &tolua_err);
+#endif
+                    return 0;
+    });
+    tolua_function(tolua_S, "AddNoUpdateCompent", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+        if(!tolua_isusertable(tolua_S, 1, "CMapTMXCache", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+
+        if(argc == 2){
+            cocos2d::Node* arg0;
+            cocos2d::Component* arg1;
+            ok &= luaval_to_object<cocos2d::Node>(tolua_S, 2, "cc.Node", &arg0, "CMapTMXCache:AddNoUpdateCompent");
+            ok &= luaval_to_object<cocos2d::Component>(tolua_S, 3, "cc.Component", &arg1, "CMapTMXCache:AddNoUpdateCompent");
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'AddNoUpdateCompent'", nullptr);
+                return 0;
+            }
+            CMapTMXCache::AddNoUpdateCompent(arg0, arg1);
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CMapTMXCache:AddNoUpdateCompent", argc, 2);
+        return 0;
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'AddNoUpdateCompent'.", &tolua_err);
+#endif
+                    return 0;
+    });
+    tolua_function(tolua_S, "AddClearNodeChildsListView", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        CMapTMXCache* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+
+        if(!tolua_isusertype(tolua_S, 1, "CMapTMXCache", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        cobj = (CMapTMXCache*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'PreLoadTexture2DCache'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 1){
+            cocos2d::ui::ListView* arg0;
+            ok &= luaval_to_object<cocos2d::ui::ListView>(tolua_S, 2, "ccui.ListView", &arg0, "CLuaGlobalFunc:AddClearNodeChildsListView");
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsListView'", nullptr);
+                return 0;
+            }
+            cobj->AddClearNodeChildsListView(arg0);
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:AddClearNodeChildsListView", argc, 1);
+        return 0;
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsListView'.", &tolua_err);
+#endif
+                    return 0;
+    });
+    tolua_function(tolua_S, "AddClearNodeChilds", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        CMapTMXCache* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+
+        if(!tolua_isusertype(tolua_S, 1, "CMapTMXCache", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        cobj = (CMapTMXCache*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'PreLoadTexture2DCache'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 1){
+            cocos2d::Node* arg0;
+            ok &= luaval_to_object<cocos2d::Node>(tolua_S, 2, "cc.Node", &arg0, "CLuaGlobalFunc:AddClearNodeChilds");
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChilds'", nullptr);
+                return 0;
+            }
+            cobj->AddClearNodeChilds(arg0);
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:AddClearNodeChildsListView", argc, 1);
+        return 0;
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsListView'.", &tolua_err);
+#endif
+                    return 0;
+    });
+    tolua_function(tolua_S, "AddClearNode", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        CMapTMXCache* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+
+        if(!tolua_isusertype(tolua_S, 1, "CMapTMXCache", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        cobj = (CMapTMXCache*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'PreLoadTexture2DCache'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 1){
+            cocos2d::Node* arg0;
+            ok &= luaval_to_object<cocos2d::Node>(tolua_S, 2, "cc.Node", &arg0, "CLuaGlobalFunc:AddClearNode");
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNode'", nullptr);
+                return 0;
+            }
+            cobj->AddClearNode(arg0);
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:AddClearNodeChildsListView", argc, 1);
+        return 0;
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsListView'.", &tolua_err);
+#endif
+                    return 0;
+    });
+    tolua_function(tolua_S, "AddClearNode", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        CMapTMXCache* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+
+        if(!tolua_isusertype(tolua_S, 1, "CMapTMXCache", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        cobj = (CMapTMXCache*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'PreLoadTexture2DCache'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 1){
+            cocos2d::ui::PageView* arg0;
+            ok &= luaval_to_object<cocos2d::ui::PageView>(tolua_S, 2, "ccui.PageView", &arg0, "CLuaGlobalFunc:AddClearNodeChildsPageView");
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsPageView'", nullptr);
+                return 0;
+            }
+            cobj->AddClearNodeChildsPageView(arg0);
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:AddClearNodeChildsListView", argc, 1);
+        return 0;
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsListView'.", &tolua_err);
+#endif
+                    return 0;
+    });
+    tolua_function(tolua_S, "SetNodeNormalState", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        CMapTMXCache* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+
+        if(!tolua_isusertype(tolua_S, 1, "CMapTMXCache", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        cobj = (CMapTMXCache*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'PreLoadTexture2DCache'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 2){
+            cocos2d::Node* arg0;
+            bool arg1;
+            ok &= luaval_to_object<cocos2d::Node>(tolua_S, 2, "cc.Node", &arg0, "CLuaGlobalFunc:SetNodeNormalState");
+            ok &= luaval_to_boolean(tolua_S, 3, &arg1, "CLuaGlobalFunc:SetNodeNormalState");
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_SetNodeNormalState'", nullptr);
+                return 0;
+            }
+            cobj->SetNodeNormalState(arg0, arg1);
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:AddClearNodeChildsListView", argc, 1);
+        return 0;
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsListView'.", &tolua_err);
+#endif
+                    return 0;
+    });
+    tolua_function(tolua_S, "IsNodeNormalState", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        CMapTMXCache* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+
+        if(!tolua_isusertype(tolua_S, 1, "CMapTMXCache", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        cobj = (CMapTMXCache*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'PreLoadTexture2DCache'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 1){
+            cocos2d::Node* arg0;
+            ok &= luaval_to_object<cocos2d::Node>(tolua_S, 2, "cc.Node", &arg0, "CLuaGlobalFunc:IsNodeNormalState");
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_IsNodeNormalState'", nullptr);
+                return 0;
+            }
+            bool ret = cobj->IsNodeNormalState(arg0);
+            tolua_pushboolean(tolua_S, (bool)ret);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:AddClearNodeChildsListView", argc, 1);
+        return 0;
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsListView'.", &tolua_err);
+#endif
+                    return 0;
+    });
+    tolua_function(tolua_S, "AddContentWidthHeight", [](lua_State* tolua_S)->int{
+        int argc = 0;
+        CMapTMXCache* cobj = nullptr;
+        bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+        tolua_Error tolua_err;
+
+        if(!tolua_isusertype(tolua_S, 1, "CMapTMXCache", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+        cobj = (CMapTMXCache*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+        if(!cobj){
+            tolua_error(tolua_S, "invalid 'cobj' in function 'PreLoadTexture2DCache'", nullptr);
+            return 0;
+        }
+#endif
+
+        argc = lua_gettop(tolua_S) - 1;
+        if(argc == 1){
+            cocos2d::Node* arg0;
+            double arg1, arg2;
+            ok &= luaval_to_object<cocos2d::Node>(tolua_S, 2, "cc.Node", &arg0, "CLuaGlobalFunc:AddContentWidthHeight");
+            ok &= luaval_to_number(tolua_S, 3, &arg1, "AddContentWidthHeight");
+            ok &= luaval_to_number(tolua_S, 4, &arg2, "AddContentWidthHeight");
+            if(!ok){
+                tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_IsNodeNormalState'", nullptr);
+                return 0;
+            }
+            cobj->AddContentWidthHeight(arg0, arg1, arg2);
+            lua_settop(tolua_S, 1);
+            return 1;
+        }
+        luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "CLuaGlobalFunc:AddClearNodeChildsListView", argc, 1);
+        return 0;
+#if COCOS2D_DEBUG >= 1
+        tolua_lerror:
+                    tolua_error(tolua_S, "#ferror in function 'lua_cocos2dx_xiake_CLuaGlobalFunc_AddClearNodeChildsListView'.", &tolua_err);
+#endif
+                    return 0;
+    });
+    tolua_endmodule(tolua_S);
+    std::string typeName = typeid(CMapTMXCache).name();
+    g_luaType[typeName] = "CMapTMXCache";
+    g_typeCast["CMapTMXCache"] = "CMapTMXCache";
+    return 1;
+}
+
 TOLUA_API int register_all_cocos2dx_xiake(lua_State* tolua_S)
 {
 	tolua_open(tolua_S);
@@ -3434,8 +3672,11 @@ TOLUA_API int register_all_cocos2dx_xiake(lua_State* tolua_S)
 	lua_register_cocos2dx_xiake_CDyListViewLoadLayout(tolua_S);
 	lua_register_cocos2dx_xiake_CDyListView(tolua_S);
 	lua_register_cocos2dx_xiake_CCocosRichTextNode(tolua_S);
-	//lua_register_cocos2dx_xiake_CLuaGlobalFunc(tolua_S);
 	lua_register_cocos2dx_xiake_CCocosRichTextNodeForCocos(tolua_S);
+    lua_register_cocos2dx_xiake_AnimatePacker3(tolua_S);
+    lua_register_cocos2dx_xiake_SpriteFrameCache_XiaKe(tolua_S);
+    lua_register_cocos2dx_xiake_CLikeWidget(tolua_S);
+    lua_register_cocos2dx_xiake_CMapTMXCache(tolua_S);
 
 	tolua_endmodule(tolua_S);
 	return 1;

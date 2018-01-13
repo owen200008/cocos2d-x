@@ -37,6 +37,10 @@ public:
     SpriteFrameCache_XiaKe();
     virtual ~SpriteFrameCache_XiaKe();
 
+    static SpriteFrameCache_XiaKe* getInstanceXiaKe(){
+        return (SpriteFrameCache_XiaKe*)cocos2d::SpriteFrameCache::getInstance();
+    }
+
     Texture2D* addSpriteFramesWithPlistFile(const std::string& plist, bool bNoRelease);
 protected:
     //”√”⁄”¿æ√±£¥Ê

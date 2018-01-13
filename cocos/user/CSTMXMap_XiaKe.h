@@ -33,12 +33,18 @@ public:
     //! 往节点增加noupdate Component
     static void AddNoUpdateCompent(cocos2d::Node* pNode, cocos2d::Component* pComponent);
 
-    //增加延迟释放的节点
+    //! 增加延迟释放的节点
     void AddClearNode(cocos2d::Node* pNode);
     void AddClearNodeChilds(cocos2d::Node* pNode);
     void AddClearNodeChildsListView(cocos2d::ui::ListView* pListView);
     void AddClearNodeChildsPageView(cocos2d::ui::PageView* pPageView);
 
+    //! 设置node显示状态
+    void SetNodeNormalState(cocos2d::Node* pNode, bool bNormal);
+    bool IsNodeNormalState(cocos2d::Node* pNode);
+
+    //! 提供快速增加设置大小
+    void AddContentWidthHeight(cocos2d::Node* pNode, float fAddWidth, float fAddHeight);
 protected:
     CMapTMXCache();
     virtual ~CMapTMXCache();
