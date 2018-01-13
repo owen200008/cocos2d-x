@@ -76,6 +76,14 @@ function cc.disable_global()
         end
     })
 end
+--ÁÙÊ±¿ªÆô
+function cc.enable_global()
+    setmetatable(__g, {
+        __newindex = function(_, name, value)
+            rawset(__g, name, value)
+        end
+    })
+end
 
 if CC_DISABLE_GLOBAL then
     cc.disable_global()

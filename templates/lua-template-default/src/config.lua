@@ -13,12 +13,20 @@ CC_DISABLE_GLOBAL = true
 
 -- for module display
 CC_DESIGN_RESOLUTION = {
-    width = 960,
-    height = 640,
+    width = 1366,
+    height = 768,
     autoscale = "FIXED_HEIGHT",
     callback = function(framesize)
+        if cc.Application:getInstance():getTargetPlatform() == cc.PLATFORM_OS_WINDOWS then
+          local view = cc.Director:getInstance():getOpenGLView()
+            if view ~= nil then
+              framesize.width = width
+              framesize.height = height
+              view:setFrameSize(framesize.width, framesize.height)
+            end
+        end
         local ratio = framesize.width / framesize.height
-        if ratio <= 1.34 then
+        if ratio <= 1.776 then
             -- iPad 768*1024(1536*2048) is 4:3 screen
             return {autoscale = "FIXED_WIDTH"}
         end

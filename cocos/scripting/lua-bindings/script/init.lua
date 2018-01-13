@@ -28,6 +28,9 @@ require "cocos.cocos2d.functions"
 
 __G__TRACKBACK__ = function(msg)
     local msg = debug.traceback(msg, 3)
+    if g_exportLogError then
+        g_exportLogError(msg)
+    end
     print(msg)
     return msg
 end
