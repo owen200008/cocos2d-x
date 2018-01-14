@@ -140,9 +140,10 @@ namespace ui {
 
     void EditBoxImplWin::setNativeFont(const char* pFontName, int fontSize)
     {
+        //AddFontMemResourceEx()
         auto glView = Director::getInstance()->getOpenGLView();
-        HFONT hFont = ::CreateFontW(static_cast<int>(fontSize * glView->getScaleX()), 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
-            CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY, VARIABLE_PITCH, L"Arial");
+        HFONT hFont = ::CreateFontA(static_cast<int>(fontSize * glView->getScaleX()), 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
+            CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY, VARIABLE_PITCH, pFontName);
 
         ::SendMessageW(_hwndEdit,             // Handle of edit control
             WM_SETFONT,         // Message to change the font
@@ -159,6 +160,7 @@ namespace ui {
     void EditBoxImplWin::setNativePlaceholderFont(const char* pFontName, int fontSize)
     {
         //not implemented yet
+        setNativeFont(pFontName, fontSize);
     }
 
     void EditBoxImplWin::setNativePlaceholderFontColor(const Color4B& color)

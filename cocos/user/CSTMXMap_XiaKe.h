@@ -30,6 +30,10 @@ public:
     //! 最好是1秒一次
     void OnTimer(int nTick);
 public:
+    //! 根据URL创建sprite
+    cocos2d::Texture2D* CreateTextureByData(const char* pData, int nLength);
+
+
     //! 往节点增加noupdate Component
     static void AddNoUpdateCompent(cocos2d::Node* pNode, cocos2d::Component* pComponent);
 

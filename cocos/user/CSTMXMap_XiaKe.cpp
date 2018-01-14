@@ -181,3 +181,16 @@ void CMapTMXCache::AddContentWidthHeight(cocos2d::Node* pNode, float fAddWidth, 
     const cocos2d::Size& sContentSize = pNode->getContentSize();
     pNode->setContentSize(cocos2d::Size(sContentSize.width + fAddWidth, sContentSize.height + fAddHeight));
 }
+
+//! 根据URL创建sprite
+cocos2d::Texture2D* CMapTMXCache::CreateTextureByData(const char* pData, int nLength){
+    auto pImage = new cocos2d::Image();
+    pImage->autorelease();
+    if(!pImage->initWithImageData((unsigned char*)pData, nLength)){
+        return nullptr;
+    }
+    auto pRet = new cocos2d::Texture2D();
+    pRet->autorelease();
+    pRet->initWithImage(pImage);
+    return pRet;
+}
