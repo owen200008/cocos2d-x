@@ -138,6 +138,18 @@ namespace ui {
         this->createEditCtrl(false);
     }
 
+    void EditBoxImplWin::SetCenter(){
+        RECT clientRect;
+        ::GetClientRect(_hwndEdit, &clientRect);
+
+        HDC DC = GetDC(_hwndEdit);
+        tagTEXTMETRICW Metrics;
+        GetTextMetrics(DC, &Metrics);
+        ReleaseDC(0, DC);
+        OffsetRect(&clientRect, 0, Metrics.tmHeight / 2);
+        ::SendMessage(_hwndEdit, EM_SETRECT, 0, (LPARAM)(&clientRect));
+    }
+
     void EditBoxImplWin::setNativeFont(const char* pFontName, int fontSize)
     {
         //AddFontMemResourceEx()
@@ -150,6 +162,7 @@ namespace ui {
             (WPARAM)hFont,     // handle of the font
             MAKELPARAM(TRUE, 0) // Redraw text
         );
+        SetCenter();
     }
 
     void EditBoxImplWin::setNativeFontColor(const Color4B& color)
@@ -250,6 +263,7 @@ namespace ui {
         {
             ::SendMessageW(_hwndEdit, EM_SCROLLCARET, 0, 0);
         }
+        SetCenter();
     }
 
     void EditBoxImplWin::setNativePlaceHolder(const char* pText)
@@ -279,6 +293,7 @@ namespace ui {
             rect.size.width,
             rect.size.height,
             SWP_NOZORDER);
+        SetCenter();
     }
 
     const char* EditBoxImplWin::getNativeDefaultFontName()
@@ -376,7 +391,6 @@ namespace ui {
 
         int inputLength = ::GetWindowTextLengthW(_hwndEdit);
         wstrResult.resize(inputLength);
-
         ::GetWindowTextW(_hwndEdit, (LPWSTR)&wstrResult[0], inputLength + 1);
         bool conversionResult = cocos2d::StringUtils::UTF16ToUTF8(wstrResult, utf8Result);
         if (!conversionResult)

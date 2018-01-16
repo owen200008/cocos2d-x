@@ -63,6 +63,7 @@ namespace ui {
         virtual void nativeCloseKeyboard() override;
         virtual void setNativeMaxLength(int maxLength) override;
 
+        void SetCenter();
     private:
         void createEditCtrl(bool singleLine);
         void cleanupEditCtrl();
