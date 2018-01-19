@@ -1370,11 +1370,11 @@ void TransitionCrossFade::draw(Renderer* /*renderer*/, const Mat4 &/*transform*/
 
 void TransitionCrossFade::onEnter()
 {
-    TransitionScene::onEnter();
-	CTrCrossFadeNode* pNode = CTrCrossFadeNode::create();
-	pNode->StartTransitionCrossFade(this, _outScene, _duration);
-	addChild(pNode);
-    /*// create a transparent color layer
+    //TransitionScene::onEnter();
+	//CTrCrossFadeNode* pNode = CTrCrossFadeNode::create();
+	//pNode->StartTransitionCrossFade(this, _outScene, _duration);
+	//addChild(pNode);
+    // create a transparent color layer
     // in which we are going to add our rendertextures
     Color4B  color(0,0,0,0);
     Size size = Director::getInstance()->getWinSize();
@@ -1436,7 +1436,7 @@ void TransitionCrossFade::onEnter()
     outTexture->getSprite()->runAction( layerAction );
 
     // add the layer (which contains our two rendertextures) to the scene
-    addChild(layer, 2, kSceneFade);*/
+    addChild(layer, 2, kSceneFade);
 }
 
 // clean up on exit
@@ -1538,7 +1538,8 @@ ActionInterval* TransitionTurnOffTiles:: easeActionWithAction(ActionInterval* ac
 //
 TransitionSplitCols::TransitionSplitCols()
 {
-    _gridProxy = NodeGridDeepCopy::create();
+    //_gridProxy = NodeGridDeepCopy::create();
+    _gridProxy = NodeGrid::create();
     _gridProxy->retain();
 }
 TransitionSplitCols::~TransitionSplitCols()
