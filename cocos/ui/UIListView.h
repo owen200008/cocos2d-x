@@ -462,6 +462,10 @@ public:
      */
     CC_DEPRECATED_ATTRIBUTE void refreshView();
 
+    /*
+    * get the out to load more data
+    */
+    virtual Vec2 getHowMuchOutOfBoundary(const Vec2& addition = Vec2::ZERO) override;
 CC_CONSTRUCTOR_ACCESS:
     virtual bool init() override;
     
@@ -481,8 +485,6 @@ protected:
     virtual void copyClonedWidgetChildren(Widget* model) override;
     void selectedItemEvent(TouchEventType event, Widget *sender, Touch* pTouch);
     virtual void interceptTouchEvent(Widget::TouchEventType event,Widget* sender,Touch* touch) override;
-    
-    virtual Vec2 getHowMuchOutOfBoundary(const Vec2& addition = Vec2::ZERO) override;
     
     virtual void startAttenuatingAutoScroll(const Vec2& deltaMove, const Vec2& initialVelocity) override;
     
