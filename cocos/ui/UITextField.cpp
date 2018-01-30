@@ -279,7 +279,8 @@ _eventCallback(nullptr),
 _textFieldRendererAdaptDirty(true),
 _fontName("Thonburi"),
 _fontSize(10),
-_fontType(FontType::SYSTEM)
+_fontType(FontType::SYSTEM),
+_bAttachImg(false)
 {
 }
 
@@ -669,6 +670,12 @@ void TextField::attachWithIMEEvent()
         _ccEventCallback(this, static_cast<int>(EventType::ATTACH_WITH_IME));
     }
     this->release();
+    if(_bAttachImg){
+        auto pChild = getChildByTag(1);
+        if(pChild){
+            pChild->setVisible(true);
+        }
+    }
 }
 
 void TextField::detachWithIMEEvent()
@@ -687,6 +694,12 @@ void TextField::detachWithIMEEvent()
         _ccEventCallback(this, static_cast<int>(EventType::DETACH_WITH_IME));
     }
     this->release();
+    if(_bAttachImg){
+        auto pChild = getChildByTag(1);
+        if(pChild){
+            pChild->setVisible(false);
+        }
+    }
 }
 
 void TextField::insertTextEvent()
@@ -867,6 +880,16 @@ void TextField::setCursorFromPoint(const Vec2 &point, const Camera* camera)
     _textFieldRenderer->setCursorFromPoint(point, camera);
 }
 
+/**
+* set draw attach img
+*/
+void TextField::setAttachDrawImg(bool bDraw){
+    _bAttachImg = bDraw;
+    auto pChild = getChildByTag(1);
+    if(pChild){
+        pChild->setVisible(getAttachWithIME());
+    }
+}
 
 }
 

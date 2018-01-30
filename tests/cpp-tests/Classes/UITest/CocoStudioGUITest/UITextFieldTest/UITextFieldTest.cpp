@@ -44,8 +44,8 @@ bool UITextFieldTest::init()
         _uiLayer->addChild(alert);
         
         // Create the textfield
-        TextField* textField = TextField::create("input words here","Arial",30);
-
+        TextField* textField = TextField::create("input words here", "fonts/arial.ttf", 30);
+        textField->setCursorEnabled(true);
         textField->setPosition(Vec2(widgetSize.width / 2.0f, widgetSize.height / 2.0f));
         textField->addEventListener(CC_CALLBACK_2(UITextFieldTest::textFieldEvent, this));
         _uiLayer->addChild(textField);
@@ -286,6 +286,7 @@ bool UITextFieldTest_LineWrap::init()
         
         // Create the textfield
         TextField* textField = TextField::create("input words here","fonts/Marker Felt.ttf",30);
+        textField->setCursorEnabled(true);
         textField->ignoreContentAdaptWithSize(false);
         ((Label*)(textField->getVirtualRenderer()))->setLineBreakWithoutSpace(true);
         textField->setContentSize(Size(240, 170));

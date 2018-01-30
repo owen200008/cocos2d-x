@@ -651,6 +651,10 @@ public:
      */
     void setCursorFromPoint(const Vec2 &point, const Camera* camera);
     
+    /**
+     * set draw attach img
+    */
+    void setAttachDrawImg(bool bDraw);
 CC_CONSTRUCTOR_ACCESS:
     virtual bool init() override;
     
@@ -701,6 +705,7 @@ private:
     std::string _fontName;
     int _fontSize;
     FontType _fontType;
+    bool _bAttachImg;
 };
 
 }
