@@ -656,6 +656,9 @@ void TextFieldTTF::controlKey(EventKeyboard::KeyCode keyCode)
         case EventKeyboard::KeyCode::KEY_ESCAPE:
             detachWithIME();
             break;
+        case EventKeyboard::KeyCode::KEY_ENTER:
+            detachWithIME();
+            break;
         default:
             break;
         }
