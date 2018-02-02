@@ -121,7 +121,7 @@ protected:
      *@param delegate  A instance implements IMEDelegate delegate.
      *@return Whether the IME is detached or not.
      */
-    bool detachDelegateWithIME(IMEDelegate * delegate);
+    bool detachDelegateWithIME(IMEDelegate * delegate, bool bEnter);
 
     /**
      *@brief Remove the delegate from the delegates which receive IME messages.

@@ -119,8 +119,12 @@ public:
     /**
      *@brief    End text input and close keyboard.
      */
-    virtual bool detachWithIME() override;
+    virtual bool detachWithIME(bool bEnter = false) override;
 
+    /**
+    
+    */
+    bool isDetachWithIMEEnter(){ return _isDetachWithIMEEnter; }
     //////////////////////////////////////////////////////////////////////////
     // properties
     //////////////////////////////////////////////////////////////////////////
@@ -247,7 +251,7 @@ protected:
     virtual bool canAttachWithIME() override;
     virtual bool canDetachWithIME() override;
     virtual void didAttachWithIME() override;
-    virtual void didDetachWithIME() override;
+    virtual void didDetachWithIME(bool bEnter) override;
     virtual void insertText(const char * text, size_t len) override;
     virtual void deleteBackward() override;
     virtual const std::string& getContentText() override;
@@ -275,10 +279,11 @@ protected:
     float _cursorShowingTime;
 
     bool _isAttachWithIME;
+    bool _isDetachWithIMEEnter;
 
     void makeStringSupportCursor(std::string& displayText);
     void updateCursorDisplayText();
-    void setAttachWithIME(bool isAttachWithIME);
+    void setAttachWithIME(bool isAttachWithIME, bool bEnter = false);
     void setTextColorInternally(const Color4B& color);
 
 private:

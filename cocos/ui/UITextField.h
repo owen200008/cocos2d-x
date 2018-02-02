@@ -231,6 +231,7 @@ typedef enum
     TEXTFIELD_EVENT_DETACH_WITH_IME,
     TEXTFIELD_EVENT_INSERT_TEXT,
     TEXTFIELD_EVENT_DELETE_BACKWARD,
+    TEXTFIELD_EVENT_DETACH_WITH_IME_ENTER,
 }TextFiledEventType;
 
 /**
@@ -262,6 +263,7 @@ public:
         DETACH_WITH_IME,
         INSERT_TEXT,
         DELETE_BACKWARD,
+        DETACH_WITH_IME_ENTER,
     };
     /**
      * A callback which would be called when a TextField event happens.
@@ -655,6 +657,11 @@ public:
      * set draw attach img
     */
     void setAttachDrawImg(bool bDraw);
+
+    /**
+    * set draw attach img
+    */
+    void setNextField(TextField* pSetNextEdit){ _pNextEnterField = pSetNextEdit; }
 CC_CONSTRUCTOR_ACCESS:
     virtual bool init() override;
     
@@ -672,6 +679,7 @@ protected:
     virtual void copySpecialProperties(Widget* model) override;
     virtual void adaptRenderers() override;
 protected:
+    TextField* _pNextEnterField;
     UICCTextField* _textFieldRenderer;
 
     float _touchWidth;

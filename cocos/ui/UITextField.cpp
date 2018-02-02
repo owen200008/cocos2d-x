@@ -280,7 +280,8 @@ _textFieldRendererAdaptDirty(true),
 _fontName("Thonburi"),
 _fontSize(10),
 _fontType(FontType::SYSTEM),
-_bAttachImg(false)
+_bAttachImg(false),
+_pNextEnterField(nullptr)
 {
 }
 
@@ -681,17 +682,18 @@ void TextField::attachWithIMEEvent()
 void TextField::detachWithIMEEvent()
 {
     this->retain();
+    bool bEnterDetach = _textFieldRenderer->isDetachWithIMEEnter();
     if (_textFieldEventListener && _textFieldEventSelector)
     {
-        (_textFieldEventListener->*_textFieldEventSelector)(this, TEXTFIELD_EVENT_DETACH_WITH_IME);
+        (_textFieldEventListener->*_textFieldEventSelector)(this, bEnterDetach ? TEXTFIELD_EVENT_DETACH_WITH_IME_ENTER : TEXTFIELD_EVENT_DETACH_WITH_IME);
     }
     if (_eventCallback)
     {
-        _eventCallback(this, EventType::DETACH_WITH_IME);
+        _eventCallback(this, bEnterDetach ? EventType::DETACH_WITH_IME_ENTER : EventType::DETACH_WITH_IME);
     }
     if (_ccEventCallback)
     {
-        _ccEventCallback(this, static_cast<int>(EventType::DETACH_WITH_IME));
+        _ccEventCallback(this, static_cast<int>(bEnterDetach ? EventType::DETACH_WITH_IME_ENTER : EventType::DETACH_WITH_IME));
     }
     this->release();
     if(_bAttachImg){
@@ -699,6 +701,9 @@ void TextField::detachWithIMEEvent()
         if(pChild){
             pChild->setVisible(false);
         }
+    }
+    if(_pNextEnterField && bEnterDetach){
+        _pNextEnterField->attachWithIME();
     }
 }
 

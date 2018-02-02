@@ -94,6 +94,7 @@ TextFieldTTF::TextFieldTTF()
 , _cursorChar(CURSOR_DEFAULT_CHAR)
 , _cursorShowingTime(0.0f)
 , _isAttachWithIME(false)
+, _isDetachWithIMEEnter(false)
 {
     _colorSpaceHolder.r = _colorSpaceHolder.g = _colorSpaceHolder.b = 127;
     _colorSpaceHolder.a = 255;
@@ -204,9 +205,9 @@ bool TextFieldTTF::attachWithIME()
     return ret;
 }
 
-bool TextFieldTTF::detachWithIME()
+bool TextFieldTTF::detachWithIME(bool bEnter)
 {
-    bool ret = IMEDelegate::detachWithIME();
+    bool ret = IMEDelegate::detachWithIME(bEnter);
     if (ret)
     {
         // close keyboard
@@ -224,9 +225,9 @@ void TextFieldTTF::didAttachWithIME()
     setAttachWithIME(true);
 }
 
-void TextFieldTTF::didDetachWithIME()
+void TextFieldTTF::didDetachWithIME(bool bEnter)
 {
-    setAttachWithIME(false);
+    setAttachWithIME(false, bEnter);
 }
 
 bool TextFieldTTF::canAttachWithIME()
@@ -407,7 +408,7 @@ void TextFieldTTF::setCursorFromPoint(const Vec2 &point, const Camera* camera)
     }
 }
 
-void TextFieldTTF::setAttachWithIME(bool isAttachWithIME)
+void TextFieldTTF::setAttachWithIME(bool isAttachWithIME, bool bEnter)
 {
     if (isAttachWithIME != _isAttachWithIME)
     {
@@ -416,6 +417,9 @@ void TextFieldTTF::setAttachWithIME(bool isAttachWithIME)
         if (_isAttachWithIME)
         {
             setCursorPosition(_charCount);
+        }
+        else{
+            _isDetachWithIMEEnter = bEnter;
         }
         updateCursorDisplayText();
     }
@@ -657,7 +661,8 @@ void TextFieldTTF::controlKey(EventKeyboard::KeyCode keyCode)
             detachWithIME();
             break;
         case EventKeyboard::KeyCode::KEY_ENTER:
-            detachWithIME();
+        case EventKeyboard::KeyCode::KEY_KP_ENTER:
+            detachWithIME(true);
             break;
         default:
             break;

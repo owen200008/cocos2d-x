@@ -77,7 +77,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual bool detachWithIME();
+    virtual bool detachWithIME(bool bEnter = false);
 
 protected:
     friend class IMEDispatcher;
@@ -109,7 +109,7 @@ protected:
     * @js NA
     * @lua NA
     */
-    virtual void didDetachWithIME() {}
+    virtual void didDetachWithIME(bool bEnter) {}
 
     /**
     @brief    Called by IMEDispatcher when text input received from the IME.

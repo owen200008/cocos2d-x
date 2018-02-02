@@ -490,6 +490,27 @@ static void extendTextField(lua_State* L)
     if (lua_istable(L,-1))
     {
         tolua_function(L, "addEventListener", lua_cocos2dx_TextField_addEventListener);
+        tolua_function(L, "setNextField", [](lua_State* L)->int{
+            if(nullptr == L)
+                return 0;
+            int argc = 0;
+            bool ok = true;
+            TextField* self = nullptr;
+
+            self = static_cast<TextField*>(tolua_tousertype(L, 1, 0));
+            argc = lua_gettop(L) - 1;
+            if(1 == argc){
+                TextField* arg1 = static_cast<TextField*>(tolua_tousertype(L, 2, 0));
+                if(!arg1){
+                    tolua_error(L, "invalid arguments in function 'setAttachDrawImg'", nullptr);
+                    return 0;
+                }
+                self->setNextField(arg1);
+                lua_settop(L, 1);
+                return 1;
+            }
+            return 0;
+        });
         tolua_function(L, "setAttachDrawImg", [](lua_State* L)->int{
             if(nullptr == L)
                 return 0;

@@ -48,9 +48,9 @@ bool IMEDelegate::attachWithIME()
     return IMEDispatcher::sharedDispatcher()->attachDelegateWithIME(this);
 }
 
-bool IMEDelegate::detachWithIME()
+bool IMEDelegate::detachWithIME(bool bEnter)
 {
-    return IMEDispatcher::sharedDispatcher()->detachDelegateWithIME(this);
+    return IMEDispatcher::sharedDispatcher()->detachDelegateWithIME(this, bEnter);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -155,7 +155,7 @@ bool IMEDispatcher::attachDelegateWithIME(IMEDelegate * delegate)
                 // detach first
                 IMEDelegate * oldDelegate = _impl->_delegateWithIme;
                 _impl->_delegateWithIme = 0;
-                oldDelegate->didDetachWithIME();
+                oldDelegate->didDetachWithIME(false);
 
                 _impl->_delegateWithIme = *iter;
                 delegate->didAttachWithIME();
@@ -174,7 +174,7 @@ bool IMEDispatcher::attachDelegateWithIME(IMEDelegate * delegate)
     return ret;
 }
 
-bool IMEDispatcher::detachDelegateWithIME(IMEDelegate * delegate)
+bool IMEDispatcher::detachDelegateWithIME(IMEDelegate * delegate, bool bEnter)
 {
     bool ret = false;
     do
@@ -187,7 +187,7 @@ bool IMEDispatcher::detachDelegateWithIME(IMEDelegate * delegate)
         CC_BREAK_IF(! delegate->canDetachWithIME());
 
         _impl->_delegateWithIme = 0;
-        delegate->didDetachWithIME();
+        delegate->didDetachWithIME(bEnter);
         ret = true;
     } while (0);
     return ret;

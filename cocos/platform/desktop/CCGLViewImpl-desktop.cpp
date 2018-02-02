@@ -768,6 +768,7 @@ void GLViewImpl::onGLFWKeyCallback(GLFWwindow* /*window*/, int key, int /*scanco
             IMEDispatcher::sharedDispatcher()->dispatchControlKey(g_keyCodeMap[key]);
             break;
         case EventKeyboard::KeyCode::KEY_ENTER:
+        case EventKeyboard::KeyCode::KEY_KP_ENTER:
             IMEDispatcher::sharedDispatcher()->dispatchControlKey(EventKeyboard::KeyCode::KEY_ENTER);
             break;
         default:
