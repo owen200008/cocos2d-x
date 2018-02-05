@@ -192,6 +192,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\openssl\prebuilt\win32\*.*" "$(OutDir)"
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\ui\UIWebViewImpl-WIN32.cpp" />
     <ClCompile Include="..\user\AnimatePacker3.cpp" />
     <ClCompile Include="..\user\CCSpriteFrameCache_XiaKe.cpp" />
     <ClCompile Include="..\user\CSLoader_XiaKe.cpp" />
@@ -777,6 +778,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\openssl\prebuilt\win32\*.*" "$(OutDir)"
     <ClCompile Include="CCTweenFunction.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\ui\UIWebViewImpl-WIN32.h" />
     <ClInclude Include="..\user\AnimatePacker3.h" />
     <ClInclude Include="..\user\CCSpriteFrameCache_XiaKe.h" />
     <ClInclude Include="..\user\CSLoader_XiaKe.h" />

@@ -26,6 +26,8 @@
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS) && !defined(CC_TARGET_OS_TVOS)
 #include "scripting/lua-bindings/auto/lua_cocos2dx_experimental_video_auto.hpp"
 #include "scripting/lua-bindings/manual/ui/lua_cocos2dx_experimental_video_manual.hpp"
+#endif
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) && !defined(CC_TARGET_OS_TVOS)
 #include "scripting/lua-bindings/auto/lua_cocos2dx_experimental_webview_auto.hpp"
 #include "scripting/lua-bindings/manual/ui/lua_cocos2dx_experimental_webview_manual.hpp"
 #endif
@@ -1227,9 +1229,12 @@ int register_ui_module(lua_State* L)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS) && !defined(CC_TARGET_OS_TVOS)
         register_all_cocos2dx_experimental_video(L);
         register_all_cocos2dx_experimental_video_manual(L);
+#endif
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) && !defined(CC_TARGET_OS_TVOS)
         register_all_cocos2dx_experimental_webview(L);
         register_all_cocos2dx_experimental_webview_manual(L);
 #endif
+
         extendEventListenerFocusEvent(L);
     }
     lua_pop(L, 1);

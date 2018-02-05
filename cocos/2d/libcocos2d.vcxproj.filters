@@ -2036,6 +2036,9 @@
     <ClCompile Include="..\user\dylistviewReader.cpp">
       <Filter>user</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\cocos2d-x\cocos\ui\UIWebViewImpl-WIN32.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\physics\CCPhysicsBody.h">
@@ -3985,6 +3988,9 @@
     </ClInclude>
     <ClInclude Include="..\user\dylistviewOptions_generated.h">
       <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\cocos2d-x\cocos\ui\UIWebViewImpl-WIN32.h">
+      <Filter>ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

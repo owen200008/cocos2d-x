@@ -29,6 +29,7 @@
 #include "base/CCDirector.h"
 #include "platform/CCFileUtils.h"
 #include "ui/UIWebViewImpl-tizen.h"
+#include "ui/UIWebViewImpl-WIN32.h"
 
 NS_CC_BEGIN
 namespace experimental{
