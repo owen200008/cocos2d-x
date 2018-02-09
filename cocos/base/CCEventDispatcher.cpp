@@ -834,12 +834,18 @@ void EventDispatcher::dispatchTouchEventToListeners(EventListenerVector* listene
             // priority == 0, scene graph priority
             
             // first, get all enabled, unPaused and registered listeners
-            std::vector<EventListener*> sceneListeners;
+            static std::vector<EventListener*> sceneListeners;
+            sceneListeners.resize(0);
             for (auto& l : *sceneGraphPriorityListeners)
             {
                 if (l->isEnabled() && !l->isPaused() && l->isRegistered())
                 {
-                    sceneListeners.push_back(l);
+                    if(l->isMorePower()){
+                        sceneListeners.insert(sceneListeners.begin(), l);
+                    }
+                    else{
+                        sceneListeners.push_back(l);
+                    }
                 }
             }
             // second, for all camera call all listeners
@@ -965,7 +971,8 @@ void EventDispatcher::dispatchTouchEvent(EventTouch* event)
     bool isNeedsMutableSet = (oneByOneListeners && allAtOnceListeners);
     
     const std::vector<Touch*>& originalTouches = event->getTouches();
-    std::vector<Touch*> mutableTouches(originalTouches.size());
+    static std::vector<Touch*> mutableTouches;
+    mutableTouches.resize(originalTouches.size());
     std::copy(originalTouches.begin(), originalTouches.end(), mutableTouches.begin());
 
     //

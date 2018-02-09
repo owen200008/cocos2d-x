@@ -27,6 +27,8 @@ THE SOFTWARE.
 #include "ui/UIHelper.h"
 #include "base/ccUTF8.h"
 #include "2d/CCCamera.h"
+#include "base/CCEventListenerTouch.h"
+
 
 NS_CC_BEGIN
 
@@ -658,6 +660,10 @@ void TextField::setDeleteBackward(bool deleteBackward)
 
 void TextField::attachWithIMEEvent()
 {
+    if(_touchListener){
+        _touchListener->setMorePower(true);
+    }
+
     this->retain();
     if (_textFieldEventListener && _textFieldEventSelector)
     {
@@ -681,6 +687,9 @@ void TextField::attachWithIMEEvent()
 
 void TextField::detachWithIMEEvent()
 {
+    if(_touchListener){
+        _touchListener->setMorePower(false);
+    }
     this->retain();
     bool bEnterDetach = _textFieldRenderer->isDetachWithIMEEnter();
     if (_textFieldEventListener && _textFieldEventSelector)

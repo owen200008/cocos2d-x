@@ -110,6 +110,9 @@ public:
      */
     bool isEnabled() const { return _isEnabled; }
 
+    bool isMorePower() const{ return _isMorePower; }
+
+    void setMorePower(bool bPower){ _isMorePower = bPower; }
 protected:
 
     /** Sets paused state for the listener
@@ -173,6 +176,7 @@ protected:
     Node* _node;            // scene graph based priority
     bool _paused;           // Whether the listener is paused
     bool _isEnabled;        // Whether the listener is enabled
+    bool _isMorePower;      //
     friend class EventDispatcher;
 };
 
