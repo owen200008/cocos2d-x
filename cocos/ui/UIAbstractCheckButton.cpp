@@ -376,7 +376,7 @@ float AbstractCheckButton::getZoomScale()const
     return _zoomScale;
 }
 
-void AbstractCheckButton::setSelected(bool selected)
+void AbstractCheckButton::setSelected(bool selected, bool bNotify)
 {
     if (selected == _isSelected)
     {
@@ -384,6 +384,9 @@ void AbstractCheckButton::setSelected(bool selected)
     }
     _isSelected = selected;
     _frontCrossRenderer->setVisible(_isSelected);
+    if(bNotify){
+        dispatchSelectChangedEvent(selected);
+    }
 }
 
 bool AbstractCheckButton::isSelected()const

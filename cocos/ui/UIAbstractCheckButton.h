@@ -114,7 +114,7 @@ public:
      * Set to true will cause the CheckBox's state to "selected", false otherwise.
      *@param selected Set to true will change CheckBox to selected state, false otherwise.
      */
-    void setSelected(bool selected);
+    void setSelected(bool selected, bool bNotify = false);
     
     //override functions
     virtual Size getVirtualRendererSize() const override;

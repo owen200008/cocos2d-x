@@ -8716,6 +8716,20 @@ int lua_cocos2dx_ui_AbstractCheckButton_setSelected(lua_State* tolua_S)
         lua_settop(tolua_S, 1);
         return 1;
     }
+    else if(argc == 2){
+        bool arg0;
+        bool arg1;
+
+        ok &= luaval_to_boolean(tolua_S, 2, &arg0, "ccui.AbstractCheckButton:setSelected");
+        ok &= luaval_to_boolean(tolua_S, 3, &arg1, "ccui.AbstractCheckButton:setSelected");
+        if(!ok){
+            tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_ui_AbstractCheckButton_setSelected'", nullptr);
+            return 0;
+        }
+        cobj->setSelected(arg0, arg1);
+        lua_settop(tolua_S, 1);
+        return 1;
+    }
     luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "ccui.AbstractCheckButton:setSelected",argc, 1);
     return 0;
 
